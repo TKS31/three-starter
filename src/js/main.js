@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { vertexShaderSource, fragmentShaderSource } from './shaderSource.js';
 import ImagePlane from './imagePlane.js';
 
 class App {
@@ -64,8 +65,13 @@ class App {
 
   createMesh(imageEl) {
     const texture = this.loader.load(imageEl.src);
+    const uniforms = {};
     const geometry = new THREE.PlaneBufferGeometry(1, 1, 100, 100);
-    const material = new THREE.MeshBasicMaterial({map: texture});
+    const material = new THREE.ShaderMaterial({
+      uniforms: uniforms,
+      vertexShader: vertexShaderSource,
+      fragmentShader: fragmentShaderSource
+    });
     const mesh = new THREE.Mesh(geometry, material);
     return mesh;
   }
@@ -102,7 +108,7 @@ class App {
 }
 
 const app = new App(
-  document.getElementById('canvas'),
-  [...document.getElementsByClassName('js-image')]
+  // canvasEl,
+  // imageElements
 );
 app.init();
