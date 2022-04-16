@@ -1,4 +1,4 @@
-const vertexShaderSource = `
+const vertexShader = `
 varying vec2 vUv;
 
 void main() {
@@ -7,7 +7,7 @@ void main() {
 }
 `;
 
-const fragmentShaderSource = `
+const fragmentShader = `
 varying vec2 vUv;
 
 void main() {
@@ -15,4 +15,4 @@ void main() {
 }
 `;
 
-export { vertexShaderSource, fragmentShaderSource };
+export { vertexShader, fragmentShader };
