@@ -32,16 +32,10 @@ export default class Mesh {
       },
     });
     this.mesh = new THREE.Mesh(geometry, material);
-    const [scale, pos] = this.getParams(this.el);
-    this.mesh.scale.set(scale.x, scale.y, scale.z);
-    this.mesh.position.set(pos.x, pos.y, pos.z);
     this.scene.add(this.mesh);
   }
 
   onResize() {
-    const [scale, pos] = this.getParams(this.el);
-    this.mesh.scale.set(scale.x, scale.y, scale.z);
-    this.mesh.position.set(pos.x, pos.y, pos.z);
   }
 
   update() {

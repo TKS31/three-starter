@@ -4,7 +4,7 @@ import Mesh from './mesh.js';
 class App {
   constructor() {
     this.stage = new Stage();
-    this.mesh = new Mesh();
+    this.mesh = new Mesh(this.stage.scene);
     this.timeoutId = null;
 
     window.addEventListener('resize', () => {
