@@ -13,3 +13,11 @@ export const map = (num, fromMin, fromMax, toMin, toMax) => {
 export const clamp = (num, min, max) => {
   return Math.min(Math.max(num, min), max);
 };
+
+export const getRandomFloat = (min, max) => {
+  return  Math.random() * (max - min) + min;
+};
+
+export const getRandomInt = (min, max) => {
+  return Math.round(getRandomFloat(min, max));
+};
