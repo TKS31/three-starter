@@ -1,7 +1,4 @@
 import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Cube from './Cube.js';
 
@@ -10,11 +7,9 @@ export default class Canvas {
     this.setSize();
     this.createScene();
     this.createRenderer();
-    this.createComposer();
     this.createCamera();
     this.viewSize = this.getViewSize();
     this.createCube();
-    this.addRenderPass();
     this.createControls();
   }
 
@@ -35,17 +30,6 @@ export default class Canvas {
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.size.width, this.size.height);
-  }
-
-  createComposer() {
-    this.composer = new EffectComposer(this.renderer);
-  }
-
-  addRenderPass() {
-    const renderPass = new RenderPass(this.scene, this.camera);
-    this.composer.addPass(renderPass);
-    const glitchPass = new GlitchPass();
-    this.composer.addPass(glitchPass);
   }
 
   createCamera() {
@@ -78,7 +62,7 @@ export default class Canvas {
     if (this.cube) {
       this.cube.update({ elapsedTime });
     }
-    this.composer.render();
+    this.renderer.render(this.scene, this.camera);
   }
 
   onResize() {
