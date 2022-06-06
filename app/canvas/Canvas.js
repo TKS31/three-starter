@@ -1,15 +1,15 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import ImagePlane from './ImagePlane.js';
+import Cube from './Cube.js';
 
 export default class Canvas {
   constructor() {
     this.setSize();
-    this.setLoader();
     this.createScene();
     this.createRenderer();
     this.createCamera();
     this.viewSize = this.getViewSize();
+    this.createCube();
     this.createControls();
   }
 
@@ -18,35 +18,6 @@ export default class Canvas {
       width: window.innerWidth,
       height: window.innerHeight
     };
-  }
-
-  setLoader() {
-    this.loader = new THREE.TextureLoader();
-  }
-
-  loadTexture({ element, image }) {
-    return new Promise(resolve => {
-      this.loader.load(image, texture => {
-        resolve({ element, texture });
-      });
-    });
-  }
-
-  onLoad(imageElements) {
-    this.createImagePlane(imageElements);
-  }
-
-  createImagePlane(imageElements) {
-    this.imagePlanes = imageElements.map(element => {
-      return new ImagePlane({
-        element: element.element,
-        texture: element.texture,
-        viewSize: this.viewSize
-      });
-    });
-    this.imagePlanes.forEach(imagePlane => {
-      this.scene.add(imagePlane.mesh);
-    });
   }
 
   createScene() {
@@ -66,7 +37,7 @@ export default class Canvas {
       60,
       this.size.width / this.size.height,
       0.1,
-      100
+      20
     );
     this.camera.position.z = 10;
   }
@@ -82,11 +53,14 @@ export default class Canvas {
     return { width, height };
   }
 
-  update() {
-    if (this.imagePlanes) {
-      this.imagePlanes.forEach(imagePlane => {
-        imagePlane.update();
-      })
+  createCube() {
+    this.cube = new Cube({ viewSize: this.viewSize });
+    this.scene.add(this.cube.mesh);
+  }
+
+  update({ elapsedTime }) {
+    if (this.cube) {
+      this.cube.update({ elapsedTime });
     }
     this.renderer.render(this.scene, this.camera);
   }
@@ -103,10 +77,8 @@ export default class Canvas {
 
     this.viewSize = this.getViewSize();
 
-    if (this.imagePlanes) {
-      this.imagePlanes.forEach(imagePlane => {
-        imagePlane.onResize(this.viewSize);
-      });
+    if (this.cube) {
+      this.cube.onResize({ viewSize: this.viewSize });
     }
   }
 }
