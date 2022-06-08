@@ -11,9 +11,9 @@ export default class Camera {
       60,
       this.size.width / this.size.height,
       0.1,
-      10
+      20
     );
-    this.instance.position.z = 5;
+    this.instance.position.z = 10;
   }
 
   getViewSize() {
