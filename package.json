@@ -1,6 +1,5 @@
 {
-  "name": "texture-effects",
-  "private": true,
+  "name": "threejs",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --open",
