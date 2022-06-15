@@ -1,43 +1,50 @@
 import * as THREE from 'three';
-import Size from './utils/Size.js';
 import Renderer from './environment/Renderer.js';
 import Camera from './environment/Camera.js';
-import Cube from './objects/Cube.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+let instance = null;
 
 export default class Canvas {
   constructor() {
-    this.size = new Size();
-    this.scene = new THREE.Scene();
-    this.renderer = new Renderer({ size: this.size });
-    this.camera = new Camera({ size: this.size });
-    this.viewSize = this.camera.getViewSize();
-    this.controls = new OrbitControls(this.camera.instance, this.renderer.instance.domElement);
-    this.createCube();
+    if (instance) return instance;
+    instance = this;
+    this._scene = new THREE.Scene();
+    this._renderer = new Renderer();
+    this._camera = new Camera();
+    this._viewSize = this._camera.getViewSize();
+    this._controls = new OrbitControls(this._camera.instance, this._renderer.instance.domElement);
   }
 
-  createCube() {
-    this.cube = new Cube({ viewSize: this.viewSize });
-    this.scene.add(this.cube.mesh);
+  static get instance() {
+    if (!instance) instance = new Canvas();
+    return instance;
   }
 
-  update({ elapsedTime }) {
-    if (this.cube) {
-      this.cube.update({ elapsedTime });
-    }
-    this.renderer.update({ scene: this.scene, camera: this.camera.instance });
+  static get scene() {
+    return this.instance._scene;
   }
 
-  onResize() {
-    this.size.onResize();
+  static get renderer() {
+    return this.instance._renderer;
+  }
 
-    this.renderer.onResize({ size: this.size });
-    this.camera.onResize({ size: this.size });
+  static get camera() {
+    return this.instance._camera;
+  }
 
-    this.viewSize = this.camera.getViewSize();
+  static get viewSize() {
+    return this.instance._viewSize;
+  }
 
-    if (this.cube) {
-      this.cube.onResize({ viewSize: this.viewSize });
-    }
+  static update({ elapsedTime }) {
+    this.renderer.update();
+  }
+
+  static onResize() {
+    this.renderer.onResize();
+    this.camera.onResize();
+
+    this.instance._viewSize = this.camera.getViewSize();
   }
 }

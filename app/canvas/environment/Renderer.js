@@ -1,8 +1,9 @@
 import { WebGLRenderer } from "three";
+import Size from "../../utils/Size";
+import Canvas from "../Canvas";
 
 export default class Renderer {
-  constructor({ size }) {
-    this.size = size;
+  constructor() {
     this.setInstance();
   }
 
@@ -10,17 +11,16 @@ export default class Renderer {
     this.instance = new WebGLRenderer({
       canvas: document.getElementById('canvas'),
     });
-    this.instance.setPixelRatio(this.size.pixelRatio);
-    this.instance.setSize(this.size.width, this.size.height);
+    this.instance.setPixelRatio(Size.pixelRatio);
+    this.instance.setSize(Size.width, Size.height);
   }
 
-  update({ scene, camera }) {
-    this.instance.render(scene, camera);
+  update() {
+    this.instance.render(Canvas.scene, Canvas.camera.instance);
   }
 
-  onResize({ size }) {
-    this.size = size;
-    this.instance.setPixelRatio(this.size.pixelRatio);
-    this.instance.setSize(this.size.width, this.size.height);
+  onResize() {
+    this.instance.setPixelRatio(Size.pixelRatio);
+    this.instance.setSize(Size.width, Size.height);
   }
 }
