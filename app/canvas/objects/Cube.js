@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import vertexShader from '../shaders/vertex.glsl';
 import fragmentShader from '../shaders/fragment.glsl';
+import Canvas from '../Canvas';
 
 export default class Cube {
-  constructor({ viewSize }) {
-    this.viewSize = viewSize;
+  constructor() {
     this.createMesh();
   }
 
@@ -13,10 +13,10 @@ export default class Cube {
     const material = new THREE.MeshNormalMaterial();
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.position.set(0, 0, 0);
+    Canvas.scene.add(this.mesh);
   }
 
-  onResize(viewSize) {
-    this.viewSize = viewSize;
+  onResize() {
   }
 
   update({ elapsedTime }) {

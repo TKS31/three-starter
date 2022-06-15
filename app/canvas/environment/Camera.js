@@ -1,15 +1,15 @@
 import { PerspectiveCamera } from "three";
+import Size from "../../utils/Size";
 
 export default class Camera {
-  constructor({ size }) {
-    this.size = size;
+  constructor() {
     this.setInstance();
   }
 
   setInstance() {
     this.instance = new PerspectiveCamera(
       60,
-      this.size.width / this.size.height,
+      Size.width / Size.height,
       0.1,
       20
     );
@@ -23,9 +23,8 @@ export default class Camera {
     return { width, height };
   }
 
-  onResize({ size }) {
-    this.size = size;
-    this.instance.aspect = this.size.width / this.size.height;
+  onResize() {
+    this.instance.aspect = Size.width / Size.height;
     this.instance.updateProjectionMatrix();
   }
 }
