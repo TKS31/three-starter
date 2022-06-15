@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { Scene } from 'three';
 import Renderer from './environment/Renderer.js';
 import Camera from './environment/Camera.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -9,7 +9,7 @@ export default class Canvas {
   constructor() {
     if (instance) return instance;
     instance = this;
-    this._scene = new THREE.Scene();
+    this._scene = new Scene();
     this._renderer = new Renderer();
     this._camera = new Camera();
     this._viewSize = this._camera.getViewSize();
