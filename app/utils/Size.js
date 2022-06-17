@@ -7,6 +7,7 @@ export default class Size {
     this._width = window.innerWidth;
     this._height = window.innerHeight;
     this._pixelRatio = Math.min(window.devicePixelRatio, 2);
+    window.addEventListener('resize', this.onResize.bind(this));
   }
 
   static get instance() {
@@ -26,9 +27,9 @@ export default class Size {
     return this.instance._pixelRatio;
   }
 
-  static onResize() {
-    this.instance._width = window.innerWidth;
-    this.instance._height = window.innerHeight;
-    this.instance._pixelRatio = Math.min(window.devicePixelRatio, 2);
+  onResize() {
+    this._width = window.innerWidth;
+    this._height = window.innerHeight;
+    this._pixelRatio = Math.min(window.devicePixelRatio, 2);
   }
 }

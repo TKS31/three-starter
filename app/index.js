@@ -1,6 +1,5 @@
 import Canvas from './canvas/Canvas.js';
 import Cube from './canvas/objects/Cube.js';
-import Size from './utils/Size.js';
 
 class App {
   constructor() {
@@ -35,8 +34,6 @@ class App {
   }
 
   onResize() {
-    Size.onResize();
-
     Canvas.onResize();
 
     if (this.cube) this.cube.onResize();
