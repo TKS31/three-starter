@@ -4,7 +4,7 @@ import Cube from './canvas/objects/Cube.js';
 class App {
   constructor() {
     this.timeoutId = null;
-    this.startTime = null;
+    this.previousTime = null;
     this.createCube();
     this.addEvents();
     window.requestAnimationFrame(this.update.bind(this));
@@ -15,13 +15,13 @@ class App {
   }
 
   update(timestamp) {
-    if (!this.startTime) this.startTime = timestamp;
-    const elapsedTime = (timestamp - this.startTime) / 1000;
-    this.startTime = timestamp;
+    if (!this.previousTime) this.previousTime = timestamp;
+    const deltaTime = (timestamp - this.previousTime) / 1000;
+    this.previousTime = timestamp;
     
-    Canvas.update({ elapsedTime });
+    Canvas.update({ deltaTime });
 
-    if (this.cube) this.cube.update({ elapsedTime });
+    if (this.cube) this.cube.update({ deltaTime });
 
     window.requestAnimationFrame(this.update.bind(this));
   }

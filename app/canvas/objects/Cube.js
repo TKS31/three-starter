@@ -19,8 +19,8 @@ export default class Cube {
   onResize() {
   }
 
-  update({ elapsedTime }) {
-    this.mesh.rotation.x += elapsedTime;
-    this.mesh.rotation.y += elapsedTime;
+  update({ deltaTime }) {
+    this.mesh.rotation.x += deltaTime;
+    this.mesh.rotation.y += deltaTime;
   }
 }

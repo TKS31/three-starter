@@ -37,7 +37,7 @@ export default class Canvas {
     return this.instance._viewSize;
   }
 
-  static update({ elapsedTime }) {
+  static update({ deltaTime }) {
     this.renderer.update();
   }
 
