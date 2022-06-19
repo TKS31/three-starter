@@ -7,14 +7,14 @@ class App {
     this.startTime = null;
     this.createCube();
     this.addEvents();
-    this.update();
+    window.requestAnimationFrame(this.update.bind(this));
   }
 
   createCube() {
     this.cube = new Cube();
   }
 
-  update(timestamp = 0) {
+  update(timestamp) {
     if (!this.startTime) this.startTime = timestamp;
     const elapsedTime = (timestamp - this.startTime) / 1000;
     this.startTime = timestamp;
@@ -23,7 +23,7 @@ class App {
 
     if (this.cube) this.cube.update({ elapsedTime });
 
-    requestAnimationFrame(this.update.bind(this));
+    window.requestAnimationFrame(this.update.bind(this));
   }
 
   addEvents() {
