@@ -1,5 +1,6 @@
 import Canvas from './canvas/Canvas.js';
 import Cube from './canvas/objects/Cube.js';
+import Time from './utils/Time.js';
 
 class App {
   constructor() {
@@ -15,13 +16,14 @@ class App {
   }
 
   update(timestamp) {
-    if (!this.previousTime) this.previousTime = timestamp;
-    const deltaTime = (timestamp - this.previousTime) / 1000;
-    this.previousTime = timestamp;
+    if (!Time.previous) Time.previous = timestamp;
+    Time.delta = (timestamp - Time.previous) / 1000;
+    Time.previous = timestamp;
+    Time.elapsed = (Date.now() - Time.start) / 1000;
     
-    Canvas.update({ deltaTime });
+    Canvas.update();
 
-    if (this.cube) this.cube.update({ deltaTime });
+    if (this.cube) this.cube.update();
 
     window.requestAnimationFrame(this.update.bind(this));
   }

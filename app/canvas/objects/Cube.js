@@ -1,7 +1,6 @@
 import * as THREE from 'three';
-import vertexShader from '../shaders/vertex.glsl';
-import fragmentShader from '../shaders/fragment.glsl';
 import Canvas from '../Canvas';
+import Time from '../../utils/Time';
 
 export default class Cube {
   constructor() {
@@ -19,8 +18,8 @@ export default class Cube {
   onResize() {
   }
 
-  update({ deltaTime }) {
-    this.mesh.rotation.x += deltaTime;
-    this.mesh.rotation.y += deltaTime;
+  update() {
+    this.mesh.rotation.x += Time.delta;
+    this.mesh.rotation.y += Time.delta;
   }
 }
