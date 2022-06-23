@@ -2,6 +2,7 @@ import { Scene } from 'three';
 import Renderer from './environment/Renderer.js';
 import Camera from './environment/Camera.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import Size from '../utils/Size.js';
 
 let instance = null;
 
@@ -10,10 +11,20 @@ export default class Canvas {
     if (instance) return instance;
     instance = this;
     this._scene = new Scene();
-    this._renderer = new Renderer();
-    this._camera = new Camera();
-    this._viewSize = this._camera.getViewSize();
-    this._controls = new OrbitControls(this._camera.instance, this._renderer.instance.domElement);
+    this._renderer = new Renderer({ canvas: document.getElementById('canvas') });
+    this._camera = new Camera({
+      fov: 60,
+      aspect: Size.width / Size.height,
+      near: 0.1,
+      far: 20,
+      position: {
+        x: 0,
+        y: 0,
+        z: 10
+      }
+    });
+    this._viewSize = this._camera.viewSize;
+    this._controls = new OrbitControls(this._camera, this._renderer.domElement);
   }
 
   static get instance() {
@@ -45,6 +56,7 @@ export default class Canvas {
     this.renderer.onResize();
     this.camera.onResize();
 
-    this.instance._viewSize = this.camera.getViewSize();
+    this.instance._viewSize = this.camera.viewSize;
+    console.log(this.instance._viewSize);
   }
 }
