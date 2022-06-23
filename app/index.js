@@ -4,9 +4,8 @@ import Time from './utils/Time.js';
 
 class App {
   constructor() {
-    this.timeoutId = null;
-    this.previousTime = null;
     this.createCube();
+    this.timeoutId = null;
     this.addEvents();
     window.requestAnimationFrame(this.update.bind(this));
   }
