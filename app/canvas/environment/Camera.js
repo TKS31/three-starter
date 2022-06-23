@@ -1,30 +1,21 @@
 import { PerspectiveCamera } from "three";
 import Size from "../../utils/Size";
 
-export default class Camera {
-  constructor() {
-    this.setInstance();
+export default class Camera extends PerspectiveCamera {
+  constructor({ fov, aspect, near, far, position }) {
+    super(fov, aspect, near, far);
+    this.position.set(position.x, position.y, position.z);
   }
 
-  setInstance() {
-    this.instance = new PerspectiveCamera(
-      60,
-      Size.width / Size.height,
-      0.1,
-      20
-    );
-    this.instance.position.z = 10;
-  }
-
-  getViewSize() {
-    const fovInRadian = this.instance.fov * Math.PI / 180;
-    const height = Math.tan(fovInRadian / 2) * this.instance.position.z * 2;
-    const width = height * this.instance.aspect;
+  get viewSize() {
+    const fovInRadian = this.fov * Math.PI / 180;
+    const height = Math.tan(fovInRadian / 2) * this.position.z * 2;
+    const width = height * this.aspect;
     return { width, height };
   }
 
   onResize() {
-    this.instance.aspect = Size.width / Size.height;
-    this.instance.updateProjectionMatrix();
+    this.aspect = Size.width / Size.height;
+    this.updateProjectionMatrix();
   }
 }
