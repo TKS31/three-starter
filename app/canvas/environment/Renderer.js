@@ -3,9 +3,10 @@ import Size from "../../utils/Size";
 import Canvas from "../Canvas";
 
 export default class Renderer extends WebGLRenderer {
-  constructor({ canvas }) {
+  constructor({ canvas, alpha }) {
     super({
-      canvas
+      canvas,
+      alpha
     });
     this.setPixelRatio(Size.pixelRatio);
     this.setSize(Size.width, Size.height);

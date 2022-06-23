@@ -11,7 +11,7 @@ export default class Canvas {
     if (instance) return instance;
     instance = this;
     this._scene = new Scene();
-    this._renderer = new Renderer({ canvas: document.getElementById('canvas') });
+    this._renderer = new Renderer({ canvas: document.getElementById('canvas'), alpha: false });
     this._camera = new Camera({
       fov: 60,
       aspect: Size.width / Size.height,
