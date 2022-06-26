@@ -1,17 +1,17 @@
 import Canvas from './canvas/Canvas.js';
-import Cube from './canvas/objects/Cube.js';
+import Sphere from './canvas/objects/Sphere.js';
 import Time from './utils/Time.js';
 
 class App {
   constructor() {
-    this.createCube();
+    this.createSphere();
     this.timeoutId = null;
     this.addEvents();
     window.requestAnimationFrame(this.update.bind(this));
   }
 
-  createCube() {
-    this.cube = new Cube();
+  createSphere() {
+    this.sphere = new Sphere();
   }
 
   update(timestamp) {
@@ -22,7 +22,7 @@ class App {
     
     Canvas.update();
 
-    if (this.cube) this.cube.update();
+    if (this.sphere) this.sphere.update();
 
     window.requestAnimationFrame(this.update.bind(this));
   }
@@ -37,7 +37,7 @@ class App {
   onResize() {
     Canvas.onResize();
 
-    if (this.cube) this.cube.onResize();
+    if (this.sphere) this.sphere.onResize();
   }
 }
 

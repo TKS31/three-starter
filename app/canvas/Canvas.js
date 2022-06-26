@@ -57,6 +57,5 @@ export default class Canvas {
     this.camera.onResize();
 
     this.instance._viewSize = this.camera.viewSize;
-    console.log(this.instance._viewSize);
   }
 }
