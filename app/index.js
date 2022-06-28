@@ -4,14 +4,14 @@ import Time from './utils/Time.js';
 
 class App {
   constructor() {
-    this.createSphere();
+    this.init();
+  }
+
+  async init() {
+    this.sphere = new Sphere();
     this.timeoutId = null;
     this.addEvents();
     window.requestAnimationFrame(this.update.bind(this));
-  }
-
-  createSphere() {
-    this.sphere = new Sphere();
   }
 
   update(timestamp) {
