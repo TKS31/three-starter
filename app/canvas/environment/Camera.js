@@ -2,9 +2,14 @@ import { PerspectiveCamera } from "three";
 import Size from "../../utils/Size";
 
 export default class Camera extends PerspectiveCamera {
-  constructor({ fov, aspect, near, far, position }) {
-    super(fov, aspect, near, far);
-    this.position.set(position.x, position.y, position.z);
+  constructor() {
+    super(
+      60,
+      Size.width / Size.height,
+      0.1,
+      20
+    );
+    this.position.set(0, 0, 10);
   }
 
   get viewSize() {

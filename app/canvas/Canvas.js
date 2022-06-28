@@ -11,18 +11,8 @@ export default class Canvas {
     if (instance) return instance;
     instance = this;
     this._scene = new Scene();
-    this._renderer = new Renderer({ canvas: document.getElementById('canvas'), alpha: false });
-    this._camera = new Camera({
-      fov: 60,
-      aspect: Size.width / Size.height,
-      near: 0.1,
-      far: 20,
-      position: {
-        x: 0,
-        y: 0,
-        z: 10
-      }
-    });
+    this._renderer = new Renderer();
+    this._camera = new Camera();
     this._viewSize = this._camera.viewSize;
     this._controls = new OrbitControls(this._camera, this._renderer.domElement);
   }
