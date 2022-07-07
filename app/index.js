@@ -15,10 +15,7 @@ class App {
   }
 
   update(timestamp) {
-    if (!Time.previous) Time.previous = timestamp;
-    Time.delta = (timestamp - Time.previous) / 1000;
-    Time.previous = timestamp;
-    Time.elapsed = (Date.now() - Time.start) / 1000;
+    Time.update(timestamp);
     
     Canvas.update();
 
