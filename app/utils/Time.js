@@ -17,51 +17,23 @@ export default class Time {
     return instance;
   }
 
-  static get targetFPS() {
-    return this.instance._targetFPS;
-  }
-
-  static get targetDelta() {
-    return this.instance._targetDelta;
-  }
-
   static get delta() {
     return this.instance._delta;
   }
 
-  static set delta(time) {
-    this.instance._delta = time;
-  }
-
-  static get previous() {
-    return this.instance._previous;
-  }
-
-  static set previous(time) {
-    this.instance._previous = time;
-  }
-
   static get elapsed() {
-    return this.instance._eplapsed;
-  }
-
-  static set elapsed(time) {
-    this.instance._eplapsed = time;
+    return this.instance._elapsed;
   }
 
   static get speed() {
     return this.instance._speed;
   }
 
-  static set speed(speed) {
-    this.instance._speed = speed;
-  }
-
   static update(timestamp) {
-    if (!Time.previous) Time.previous = timestamp;
-    Time.elapsed = timestamp / 1000;
-    Time.delta = (timestamp - Time.previous) / 1000;
-    Time.previous = timestamp;
-    Time.speed = Time.delta / Time.targetDelta;
+    if (!this.instance._previous) this.instance._previous = timestamp;
+    this.instance._elapsed = timestamp / 1000;
+    this.instance._delta = (timestamp - this.instance._previous) / 1000;
+    this.instance._previous = timestamp;
+    this.instance._speed = this.instance._delta / this.instance._targetDelta;
   }
 }
