@@ -5,11 +5,13 @@ export default class Time {
     if (instance) return instance;
     instance = this;
     this._targetFPS = 60;
+    this._minFPS = 60;
     this._targetDelta = 1 / this._targetFPS;
     this._delta = 0;
     this._elapsed = 0;
     this._previous = null;
     this._speed = 1;
+    this._maxSpeed = this._targetFPS / this._minFPS;
   }
 
   static get instance() {
@@ -34,6 +36,6 @@ export default class Time {
     this.instance._elapsed = timestamp / 1000;
     this.instance._delta = (timestamp - this.instance._previous) / 1000;
     this.instance._previous = timestamp;
-    this.instance._speed = this.instance._delta / this.instance._targetDelta;
+    this.instance._speed = Math.min(this.instance._delta / this.instance._targetDelta, this.instance._maxSpeed);
   }
 }
