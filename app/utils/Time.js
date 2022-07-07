@@ -29,7 +29,7 @@ export default class Time {
     return this.instance._speed;
   }
 
-  static update(timestamp) {
+  static update({ timestamp }) {
     if (!this.instance._previous) this.instance._previous = timestamp;
     this.instance._elapsed = timestamp / 1000;
     this.instance._delta = (timestamp - this.instance._previous) / 1000;

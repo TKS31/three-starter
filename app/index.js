@@ -15,7 +15,7 @@ class App {
   }
 
   update(timestamp) {
-    Time.update(timestamp);
+    Time.update({ timestamp });
     
     Canvas.update();
 
