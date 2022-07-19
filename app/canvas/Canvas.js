@@ -2,7 +2,6 @@ import { Scene } from 'three';
 import Renderer from './environment/Renderer.js';
 import Camera from './environment/Camera.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import Size from '../utils/Size.js';
 
 let instance = null;
 
@@ -39,7 +38,7 @@ export default class Canvas {
   }
 
   static update() {
-    this.renderer.update();
+    this.renderer.render(this.scene, this.camera);
   }
 
   static onResize() {
