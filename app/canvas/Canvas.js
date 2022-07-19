@@ -12,7 +12,7 @@ export default class Canvas {
     this._scene = new Scene();
     this._renderer = new Renderer();
     this._camera = new Camera();
-    this._viewSize = this._camera.viewSize;
+    this._viewPort = this._camera.viewPort;
     this._controls = new OrbitControls(this._camera, this._renderer.domElement);
   }
 
@@ -33,8 +33,8 @@ export default class Canvas {
     return this.instance._camera;
   }
 
-  static get viewSize() {
-    return this.instance._viewSize;
+  static get viewPort() {
+    return this.instance._viewPort;
   }
 
   static update() {
@@ -45,6 +45,6 @@ export default class Canvas {
     this.renderer.onResize();
     this.camera.onResize();
 
-    this.instance._viewSize = this.camera.viewSize;
+    this.instance._viewPort = this.camera.viewPort;
   }
 }

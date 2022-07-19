@@ -12,7 +12,7 @@ export default class Camera extends PerspectiveCamera {
     this.position.set(0, 0, 10);
   }
 
-  get viewSize() {
+  get viewPort() {
     const fovInRadian = this.fov * Math.PI / 180;
     const height = Math.tan(fovInRadian / 2) * this.position.z * 2;
     const width = height * this.aspect;
