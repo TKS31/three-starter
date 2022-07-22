@@ -1,6 +1,5 @@
 import Canvas from './canvas/Canvas.js';
 import Sphere from './canvas/objects/Sphere.js';
-import Time from './utils/Time.js';
 
 class App {
   constructor() {
@@ -14,9 +13,7 @@ class App {
     window.requestAnimationFrame(this.update.bind(this));
   }
 
-  update(timestamp) {
-    Time.update({ timestamp });
-    
+  update() {
     Canvas.update();
 
     if (this.sphere) this.sphere.update();

@@ -12,6 +12,7 @@ export default class Time {
     this._previous = null;
     this._speed = 1;
     this._maxSpeed = this._targetFPS / this._minFPS;
+    window.requestAnimationFrame(this.update.bind(this));
   }
 
   static get instance() {
@@ -31,11 +32,11 @@ export default class Time {
     return this.instance._speed;
   }
 
-  static update({ timestamp }) {
-    if (!this.instance._previous) this.instance._previous = timestamp;
-    this.instance._elapsed = timestamp / 1000;
-    this.instance._delta = (timestamp - this.instance._previous) / 1000;
-    this.instance._previous = timestamp;
-    this.instance._speed = Math.min(this.instance._delta / this.instance._targetDelta, this.instance._maxSpeed);
+  update(timestamp) {
+    if (!this._previous) this._previous = timestamp;
+    this._elapsed = timestamp / 1000;
+    this._delta = (timestamp - this._previous) / 1000;
+    this._previous = timestamp;
+    this._speed = Math.min(this._delta / this._targetDelta, this._maxSpeed);
   }
 }
