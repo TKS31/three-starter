@@ -38,5 +38,6 @@ export default class Time {
     this._delta = (timestamp - this._previous) / 1000;
     this._previous = timestamp;
     this._speed = Math.min(this._delta / this._targetDelta, this._maxSpeed);
+    window.requestAnimationFrame(this.update.bind(this));
   }
 }
