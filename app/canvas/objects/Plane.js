@@ -1,16 +1,15 @@
-import { SphereBufferGeometry, ShaderMaterial, Mesh } from "three";
+import { PlaneGeometry, ShaderMaterial, Mesh } from "three";
 import vertexShader from '../shaders/vertex.glsl';
 import fragmentShader from '../shaders/fragment.glsl';
-import Canvas from "../Canvas";
 import Time from '../../utils/Time';
 
-export default class Sphere {
+export default class Plane {
   constructor() {
     this.createMesh();
   }
 
   createMesh() {
-    const geometry = new SphereBufferGeometry(3, 64, 64);
+    const geometry = new PlaneGeometry(5, 5, 64, 64);
     const material = new ShaderMaterial({
       vertexShader,
       fragmentShader,
@@ -20,7 +19,6 @@ export default class Sphere {
     });
     this.mesh = new Mesh(geometry, material);
     this.mesh.position.set(0, 0, 0);
-    Canvas.scene.add(this.mesh);
   }
 
   update() {
