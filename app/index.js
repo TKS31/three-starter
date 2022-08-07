@@ -1,5 +1,6 @@
-import Canvas from './canvas/Canvas.js';
+import Canvas from './canvas/useCanvas.js';
 import Sphere from './canvas/objects/Sphere.js';
+import useCanvas from './canvas/useCanvas.js';
 
 class App {
   constructor() {
@@ -7,14 +8,16 @@ class App {
   }
 
   async init() {
+    this.canvas = useCanvas();
     this.sphere = new Sphere();
+    this.canvas.scene.add(this.sphere.mesh);
     this.timeoutId = null;
     this.addEvents();
     window.requestAnimationFrame(this.update.bind(this));
   }
 
   update() {
-    Canvas.update();
+    this.canvas.update();
 
     if (this.sphere) this.sphere.update();
 
@@ -29,7 +32,7 @@ class App {
   }
 
   onResize() {
-    Canvas.onResize();
+    this.canvas.onResize();
 
     if (this.sphere) this.sphere.onResize();
   }
