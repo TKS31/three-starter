@@ -1,7 +1,6 @@
 import { PlaneGeometry, ShaderMaterial, Mesh } from "three";
 import vertexShader from '../shaders/vertex.glsl';
 import fragmentShader from '../shaders/fragment.glsl';
-import Time from '../../utils/Time';
 
 export default class Plane {
   constructor() {
@@ -21,11 +20,10 @@ export default class Plane {
     this.mesh.position.set(0, 0, 0);
   }
 
-  update() {
-    this.mesh.material.uniforms.uTime.value = Time.elapsed;
+  update = ({ elapsedTime }) => {
+    this.mesh.material.uniforms.uTime.value = elapsedTime;
   }
 
-  onResize() {
-
+  onResize = () => {
   }
 }

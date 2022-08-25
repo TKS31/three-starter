@@ -2,6 +2,8 @@ import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Plane from './canvas/objects/Plane.js';
 import useCanvas from './canvas/useCanvas.js';
+import Size from './utils/Size.js';
+import Ticker from './utils/Ticker.js';
 
 class App {
   constructor() {
@@ -14,9 +16,8 @@ class App {
     this.gltfLoader = new GLTFLoader();
     this.plane = new Plane();
     this.canvas.scene.add(this.plane.mesh);
-    this.timeoutId = null;
     this.addEvents();
-    window.requestAnimationFrame(this.update.bind(this));
+    Ticker.add({ callback: this.update });
   }
 
   loadTexture({ path }) {
@@ -35,25 +36,18 @@ class App {
     });
   }
 
-  update() {
+  update = ({ elapsedTime, deltaTime, speed }) => {
     this.canvas.update();
-
-    if (this.plane) this.plane.update();
-
-    window.requestAnimationFrame(this.update.bind(this));
+    this.plane.update({ elapsedTime });
   }
 
   addEvents() {
-    window.addEventListener('resize', () => {
-      if (this.timeoutId) clearTimeout(this.timeoutId);
-      this.timeoutId = setTimeout(this.onResize.bind(this), 200);
-    });
+    this.addResizeHandler();
   }
 
-  onResize() {
-    this.canvas.onResize();
-
-    if (this.plane) this.plane.onResize();
+  addResizeHandler() {
+    Size.addResizeHandler({ callback: this.canvas.onResize, index: 0 });
+    Size.addResizeHandler({ callback: this.plane.onResize });
   }
 }
 
