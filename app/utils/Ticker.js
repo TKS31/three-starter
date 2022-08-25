@@ -13,7 +13,7 @@ export default class Ticker {
     this._speed = 1;
     this._maxSpeed = this._targetFPS / this._minFPS;
     this._callbackList = [];
-    window.requestAnimationFrame(this.update);
+    window.requestAnimationFrame(this.update.bind(this));
   }
 
   static get instance() {
@@ -45,7 +45,7 @@ export default class Ticker {
     this.instance._callbackList = this.instance._callbackList.filter(fn => fn !== callback);
   }
 
-  update = (timestamp) => {
+  update(timestamp) {
     if (!this._previousTime) this._previousTime = timestamp;
     this._elapsedTime = timestamp / 1000;
     this._deltaTime = (timestamp - this._previousTime) / 1000;
@@ -54,6 +54,6 @@ export default class Ticker {
     for (let i = 0; i < this._callbackList.length; i++) {
       this._callbackList[i]({ elapsedTime: this._elapsedTime, deltaTime: this._deltaTime, speed: this._speed });
     }
-    window.requestAnimationFrame(this.update);
+    window.requestAnimationFrame(this.update.bind(this));
   }
 }

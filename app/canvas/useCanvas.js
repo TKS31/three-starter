@@ -16,11 +16,11 @@ class Canvas {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
   }
 
-  update = () => {
+  update() {
     this.renderer.render(this.scene, this.camera);
   }
 
-  onResize = () => {
+  onResize() {
     this.renderer.onResize();
     this.camera.onResize();
     this.viewPort = this.camera.viewPort;

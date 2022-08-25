@@ -17,7 +17,7 @@ class App {
     this.plane = new Plane();
     this.canvas.scene.add(this.plane.mesh);
     this.addEvents();
-    Ticker.add({ callback: this.update });
+    Ticker.add({ callback: this.update.bind(this) });
   }
 
   loadTexture({ path }) {
@@ -36,18 +36,18 @@ class App {
     });
   }
 
-  update = ({ elapsedTime, deltaTime, speed }) => {
+  update({ elapsedTime, deltaTime, speed }) {
     this.canvas.update();
     this.plane.update({ elapsedTime });
   }
 
   addEvents() {
-    this.addResizeHandler();
+    Size.addResizeHandler({ callback: this.onResize.bind(this), index: 0 });
   }
 
-  addResizeHandler() {
-    Size.addResizeHandler({ callback: this.canvas.onResize, index: 0 });
-    Size.addResizeHandler({ callback: this.plane.onResize });
+  onResize() {
+    this.canvas.onResize();
+    this.plane.onResize();
   }
 }
 

@@ -20,10 +20,10 @@ export default class Plane {
     this.mesh.position.set(0, 0, 0);
   }
 
-  update = ({ elapsedTime }) => {
+  update({ elapsedTime }) {
     this.mesh.material.uniforms.uTime.value = elapsedTime;
   }
 
-  onResize = () => {
+  onResize() {
   }
 }
