@@ -48,8 +48,10 @@ export default class Size {
     this._width = window.innerWidth;
     this._height = window.innerHeight;
     this._pixelRatio = Math.min(window.devicePixelRatio, 2);
-    for (let i = 0; i < this._resizeHandlerList.length; i++) {
-      this._resizeHandlerList[i]();
+    if (this._resizeHandlerList.length) {
+      for (let i = 0; i < this._resizeHandlerList.length; i++) {
+        this._resizeHandlerList[i]();
+      }
     }
   }
 }

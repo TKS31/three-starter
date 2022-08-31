@@ -51,8 +51,10 @@ export default class Ticker {
     this._deltaTime = (timestamp - this._previousTime) / 1000;
     this._previousTime = timestamp;
     this._speed = Math.min(this._deltaTime / this._targetDeltaTime, this._maxSpeed);
-    for (let i = 0; i < this._callbackList.length; i++) {
-      this._callbackList[i]({ elapsedTime: this._elapsedTime, deltaTime: this._deltaTime, speed: this._speed });
+    if (this._callbackList.length) {
+      for (let i = 0; i < this._callbackList.length; i++) {
+        this._callbackList[i]({ elapsedTime: this._elapsedTime, deltaTime: this._deltaTime, speed: this._speed });
+      }
     }
     window.requestAnimationFrame(this.update.bind(this));
   }
