@@ -7,9 +7,9 @@ export default class Camera extends PerspectiveCamera {
       60,
       Size.width / Size.height,
       0.1,
-      20
+      10
     );
-    this.position.set(0, 0, 10);
+    this.position.set(0, 0, 5);
   }
 
   get viewPort() {

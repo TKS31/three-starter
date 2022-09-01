@@ -1,6 +1,7 @@
 import { PlaneGeometry, ShaderMaterial, Mesh } from "three";
-import vertexShader from '../shaders/vertex.glsl';
-import fragmentShader from '../shaders/fragment.glsl';
+import vertexShader from '../shaders/plane/vertex.glsl';
+import fragmentShader from '../shaders/plane/fragment.glsl';
+import Size from "../../utils/Size";
 
 export default class Plane {
   constructor() {
@@ -8,12 +9,13 @@ export default class Plane {
   }
 
   createMesh() {
-    const geometry = new PlaneGeometry(5, 5, 64, 64);
+    const geometry = new PlaneGeometry(2, 2, 64, 64);
     const material = new ShaderMaterial({
       vertexShader,
       fragmentShader,
       uniforms: {
-        uTime: { value: 0 }
+        uTime: { value: 0 },
+        uAspect: { value: Size.width / Size.height }
       }
     });
     this.mesh = new Mesh(geometry, material);
@@ -25,5 +27,6 @@ export default class Plane {
   }
 
   onResize() {
+    this.mesh.material.uniforms.uAspect.value = Size.width / Size.height;
   }
 }

@@ -13,7 +13,7 @@ class Canvas {
     this.renderer = new Renderer();
     this.camera = new Camera();
     this.viewPort = this.camera.viewPort;
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
   }
 
   update() {
