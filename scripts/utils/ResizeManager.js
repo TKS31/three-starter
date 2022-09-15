@@ -8,16 +8,16 @@ class ResizeManager {
     });
   }
 
-  add({ callback, index }) {
+  add({ handler, index }) {
     if (index) {
-      this.#handlerList.splice(index, 0, callback);
+      this.#handlerList.splice(index, 0, handler);
     } else {
-      this.#handlerList.push(callback);
+      this.#handlerList.push(handler);
     }
   }
 
-  remove({ callback }) {
-    this.#handlerList = this.#handlerList.filter(handler => handler !== callback);
+  remove({ handler }) {
+    this.#handlerList = this.#handlerList.filter(fn => fn !== handler);
   }
 
   #onResize() {
