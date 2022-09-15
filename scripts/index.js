@@ -42,7 +42,7 @@ class App {
   }
 
   addEvents() {
-    ResizeManager.add({ callback: this.onResize.bind(this), index: 0 });
+    ResizeManager.add({ handler: this.onResize.bind(this), index: 0 });
   }
 
   onResize() {
