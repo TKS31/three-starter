@@ -1,61 +1,55 @@
-let instance;
+class Ticker {
+  #targetFPS = 60;
+  #minFPS = 60;
+  #targetDeltaTime = 1 / this.#targetFPS;
+  #deltaTime = 0;
+  #elapsedTime = 0;
+  #previousTime;
+  #speed = 1;
+  #maxSpeed = this.#targetFPS / this.#minFPS;
+  #callbackList = [];
 
-export default class Ticker {
   constructor() {
-    if (instance) return instance;
-    instance = this;
-    this._targetFPS = 60;
-    this._minFPS = 60;
-    this._targetDeltaTime = 1 / this._targetFPS;
-    this._deltaTime = 0;
-    this._elapsedTime = 0;
-    this._previousTime = null;
-    this._speed = 1;
-    this._maxSpeed = this._targetFPS / this._minFPS;
-    this._callbackList = [];
-    window.requestAnimationFrame(this.update.bind(this));
+    window.requestAnimationFrame(this.#update.bind(this));
   }
 
-  static get instance() {
-    if (!instance) instance = new Ticker();
-    return instance;
+  get elapsedTime() {
+    return this.#elapsedTime;
   }
 
-  static get elapsedTime() {
-    return this.instance._elapsedTime;
+  get deltaTime() {
+    return this.#deltaTime;
   }
 
-  static get deltaTime() {
-    return this.instance._deltaTime;
+  get speed() {
+    return this.#speed;
   }
 
-  static get speed() {
-    return this.instance._speed;
-  }
-
-  static add({ callback, index }) {
+  add({ callback, index }) {
     if (index) {
-      this.instance._callbackList.splice(index, 0, callback);
+      this.#callbackList.splice(index, 0, callback);
     } else {
-      this.instance._callbackList.push(callback);
+      this.#callbackList.push(callback);
     }
   }
 
-  static remove({ callback }) {
-    this.instance._callbackList = this.instance._callbackList.filter(fn => fn !== callback);
+  remove({ callback }) {
+    this.#callbackList = this.#callbackList.filter(fn => fn !== callback);
   }
 
-  update(timestamp) {
-    if (!this._previousTime) this._previousTime = timestamp;
-    this._elapsedTime = timestamp / 1000;
-    this._deltaTime = (timestamp - this._previousTime) / 1000;
-    this._previousTime = timestamp;
-    this._speed = Math.min(this._deltaTime / this._targetDeltaTime, this._maxSpeed);
-    if (this._callbackList.length) {
-      for (let i = 0; i < this._callbackList.length; i++) {
-        this._callbackList[i]({ elapsedTime: this._elapsedTime, deltaTime: this._deltaTime, speed: this._speed });
+  #update(timestamp) {
+    if (!this.#previousTime) this.#previousTime = timestamp;
+    this.#elapsedTime = timestamp / 1000;
+    this.#deltaTime = (timestamp - this.#previousTime) / 1000;
+    this.#previousTime = timestamp;
+    this.#speed = Math.min(this.#deltaTime / this.#targetDeltaTime, this.#maxSpeed);
+    if (this.#callbackList.length) {
+      for (let i = 0; i < this.#callbackList.length; i++) {
+        this.#callbackList[i]({ elapsedTime: this.#elapsedTime, deltaTime: this.#deltaTime, speed: this.#speed });
       }
     }
-    window.requestAnimationFrame(this.update.bind(this));
+    window.requestAnimationFrame(this.#update.bind(this));
   }
 }
+
+export default new Ticker();

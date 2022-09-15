@@ -1,8 +1,8 @@
 import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Plane from './canvas/objects/Plane.js';
-import useCanvas from './canvas/useCanvas.js';
-import Size from './utils/Size.js';
+import Canvas from './canvas/Canvas.js';
+import ResizeManager from './utils/ResizeManager.js';
 import Ticker from './utils/Ticker.js';
 
 class App {
@@ -11,7 +11,7 @@ class App {
   }
 
   async init() {
-    this.canvas = useCanvas();
+    this.canvas = Canvas;
     this.loader = new TextureLoader();
     this.gltfLoader = new GLTFLoader();
     this.plane = new Plane();
@@ -42,7 +42,7 @@ class App {
   }
 
   addEvents() {
-    Size.addResizeHandler({ callback: this.onResize.bind(this), index: 0 });
+    ResizeManager.add({ callback: this.onResize.bind(this), index: 0 });
   }
 
   onResize() {
