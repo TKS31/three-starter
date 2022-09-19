@@ -1,5 +1,5 @@
 class ResizeManager {
-  #handlerList = [];
+  #listenerList = [];
   #timeoutId;
   constructor() {
     window.addEventListener('resize', () => {
@@ -8,22 +8,22 @@ class ResizeManager {
     });
   }
 
-  add({ handler, index }) {
+  add(listener, index) {
     if (index) {
-      this.#handlerList.splice(index, 0, handler);
+      this.#listenerList.splice(index, 0, listener);
     } else {
-      this.#handlerList.push(handler);
+      this.#listenerList.push(listener);
     }
   }
 
-  remove({ handler }) {
-    this.#handlerList = this.#handlerList.filter(fn => fn !== handler);
+  remove(listener) {
+    this.#listenerList = this.#listenerList.filter(ownListener => ownListener !== listener);
   }
 
   #onResize() {
-    if (this.#handlerList.length) {
-      for (let i = 0; i < this.#handlerList.length; i++) {
-        this.#handlerList[i]();
+    if (this.#listenerList.length) {
+      for (let i = 0; i < this.#listenerList.length; i++) {
+        this.#listenerList[i]();
       }
     }
   }
