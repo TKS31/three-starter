@@ -17,10 +17,10 @@ class App {
     this.plane = new Plane();
     this.canvas.scene.add(this.plane.mesh);
     this.addEvents();
-    Ticker.add({ callback: this.update.bind(this) });
+    Ticker.add(this.update.bind(this), 0);
   }
 
-  loadTexture({ path }) {
+  loadTexture(path) {
     return new Promise(resolve => {
       this.loader.load(path, texture => {
         resolve(texture);
@@ -28,7 +28,7 @@ class App {
     });
   }
 
-  loadModel({ path }) {
+  loadModel(path) {
     return new Promise(resolve => {
       this.gltfLoader.load(path, gltf => {
         resolve(gltf);
@@ -42,7 +42,7 @@ class App {
   }
 
   addEvents() {
-    ResizeManager.add({ handler: this.onResize.bind(this), index: 0 });
+    ResizeManager.add(this.onResize.bind(this), 0);
   }
 
   onResize() {
