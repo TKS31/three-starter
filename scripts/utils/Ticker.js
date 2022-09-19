@@ -1,13 +1,13 @@
 class Ticker {
   #targetFPS = 60;
-  #minFPS = 60;
+  #minFPS = 30;
   #targetDeltaTime = 1 / this.#targetFPS;
   #deltaTime = 0;
   #elapsedTime = 0;
   #previousTime;
   #speed = 1;
   #maxSpeed = this.#targetFPS / this.#minFPS;
-  #callbackList = [];
+  #listenerList = [];
 
   constructor() {
     window.requestAnimationFrame(this.#update.bind(this));
@@ -25,16 +25,16 @@ class Ticker {
     return this.#speed;
   }
 
-  add({ callback, index }) {
+  add(listener, index) {
     if (index) {
-      this.#callbackList.splice(index, 0, callback);
+      this.#listenerList.splice(index, 0, listener);
     } else {
-      this.#callbackList.push(callback);
+      this.#listenerList.push(listener);
     }
   }
 
-  remove({ callback }) {
-    this.#callbackList = this.#callbackList.filter(fn => fn !== callback);
+  remove(listener) {
+    this.#listenerList = this.#listenerList.filter(ownListener => ownListener !== listener);
   }
 
   #update(timestamp) {
@@ -43,9 +43,9 @@ class Ticker {
     this.#deltaTime = (timestamp - this.#previousTime) / 1000;
     this.#previousTime = timestamp;
     this.#speed = Math.min(this.#deltaTime / this.#targetDeltaTime, this.#maxSpeed);
-    if (this.#callbackList.length) {
-      for (let i = 0; i < this.#callbackList.length; i++) {
-        this.#callbackList[i]({ elapsedTime: this.#elapsedTime, deltaTime: this.#deltaTime, speed: this.#speed });
+    if (this.#listenerList.length) {
+      for (let i = 0; i < this.#listenerList.length; i++) {
+        this.#listenerList[i]({ elapsedTime: this.#elapsedTime, deltaTime: this.#deltaTime, speed: this.#speed });
       }
     }
     window.requestAnimationFrame(this.#update.bind(this));
