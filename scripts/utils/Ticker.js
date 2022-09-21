@@ -25,16 +25,19 @@ class Ticker {
     return this.#speed;
   }
 
-  add(listener, index) {
+  add(fn, context, index) {
+    const listener = { fn, context };
     if (index) {
-      this.#listenerList.splice(index, 0, listener);
+      this.#listenerList.splice(index - 1, 0, listener);
     } else {
       this.#listenerList.push(listener);
     }
   }
 
-  remove(listener) {
-    this.#listenerList = this.#listenerList.filter(ownListener => ownListener !== listener);
+  remove(fn, context) {
+    this.#listenerList = this.#listenerList.filter(listener => {
+      return !(listener.fn === fn && listener.context === context);
+    });
   }
 
   #update(timestamp) {
@@ -43,11 +46,17 @@ class Ticker {
     this.#deltaTime = (timestamp - this.#previousTime) / 1000;
     this.#previousTime = timestamp;
     this.#speed = Math.min(this.#deltaTime / this.#targetDeltaTime, this.#maxSpeed);
+
     if (this.#listenerList.length) {
       for (let i = 0; i < this.#listenerList.length; i++) {
-        this.#listenerList[i]({ elapsedTime: this.#elapsedTime, deltaTime: this.#deltaTime, speed: this.#speed });
+        const listener = this.#listenerList[i];
+        listener.fn.call(
+          listener.context,
+          { elapsedTime: this.#elapsedTime, deltaTime: this.#deltaTime, speed: this.#speed }
+        );
       }
     }
+
     window.requestAnimationFrame(this.#update.bind(this));
   }
 }
