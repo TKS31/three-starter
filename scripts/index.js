@@ -17,7 +17,7 @@ class App {
     this.plane = new Plane();
     this.canvas.scene.add(this.plane.mesh);
     this.addEvents();
-    Ticker.add(this.update.bind(this), 0);
+    Ticker.add(this.update, this, 1);
   }
 
   loadTexture(path) {
@@ -42,7 +42,7 @@ class App {
   }
 
   addEvents() {
-    ResizeManager.add(this.onResize.bind(this), 0);
+    ResizeManager.add(this.onResize, this, 1);
   }
 
   onResize() {
