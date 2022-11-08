@@ -3,7 +3,7 @@ import Renderer from './environment/Renderer.js';
 import Camera from './environment/Camera.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-class Canvas {
+class Webgl {
   #scene = new Scene();
   #renderer = new Renderer();
   #camera = new Camera();
@@ -26,10 +26,6 @@ class Canvas {
     return this.#viewPort;
   }
 
-  get controls() {
-    return this.#controls;
-  }
-
   update() {
     this.#renderer.render(this.#scene, this.#camera);
   }
@@ -41,4 +37,4 @@ class Canvas {
   }
 }
 
-export default new Canvas();
+export default new Webgl();

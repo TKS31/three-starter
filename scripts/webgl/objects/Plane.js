@@ -4,10 +4,10 @@ import fragmentShader from '../shaders/plane/fragment.glsl';
 
 export default class Plane {
   constructor() {
-    this.createMesh();
+    this.create();
   }
 
-  createMesh() {
+  create() {
     const geometry = new PlaneGeometry(5, 5, 64, 64);
     const material = new ShaderMaterial({
       vertexShader,
