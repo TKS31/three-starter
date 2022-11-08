@@ -1,5 +1,7 @@
 import GUI from "lil-gui";
 
+const Config = {};
+
 const gui = new GUI();
 
-export const PARAMS = {};
+export default Config;
