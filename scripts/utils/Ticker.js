@@ -1,7 +1,6 @@
 class Ticker {
   #targetFPS = 60;
   #minFPS = 30;
-  #targetDeltaTime = 1 / this.#targetFPS;
   #deltaTime = 0;
   #elapsedTime = 0;
   #previousTime;
@@ -45,7 +44,7 @@ class Ticker {
     this.#elapsedTime = timestamp / 1000;
     this.#deltaTime = (timestamp - this.#previousTime) / 1000;
     this.#previousTime = timestamp;
-    this.#speed = Math.min(this.#deltaTime / this.#targetDeltaTime, this.#maxSpeed);
+    this.#speed = Math.min(this.#deltaTime * this.#targetFPS, this.#maxSpeed);
 
     if (this.#listenerList.length) {
       for (let i = 0; i < this.#listenerList.length; i++) {
