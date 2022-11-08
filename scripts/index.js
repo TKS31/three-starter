@@ -1,7 +1,7 @@
 import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import Plane from './canvas/objects/Plane.js';
-import Canvas from './canvas/Canvas.js';
+import Plane from './webgl/objects/Plane.js';
+import Webgl from './webgl/Webgl.js';
 import ResizeManager from './utils/ResizeManager.js';
 import Ticker from './utils/Ticker.js';
 
@@ -11,11 +11,10 @@ class App {
   }
 
   async init() {
-    this.canvas = Canvas;
     this.loader = new TextureLoader();
     this.gltfLoader = new GLTFLoader();
     this.plane = new Plane();
-    this.canvas.scene.add(this.plane.mesh);
+    Webgl.scene.add(this.plane.mesh);
     this.addEvents();
     Ticker.add(this.update, this, 1);
   }
@@ -37,7 +36,7 @@ class App {
   }
 
   update({ elapsedTime, deltaTime, speed }) {
-    this.canvas.update();
+    Webgl.update();
     this.plane.update({ elapsedTime });
   }
 
@@ -46,7 +45,7 @@ class App {
   }
 
   onResize() {
-    this.canvas.onResize();
+    Webgl.onResize();
     this.plane.onResize();
   }
 }
