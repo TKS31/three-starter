@@ -1,6 +1,7 @@
 class ResizeManager {
   #listenerList = [];
   #timeoutId;
+  
   constructor() {
     window.addEventListener('resize', () => {
       if (this.#timeoutId) clearTimeout(this.#timeoutId);
