@@ -1,4 +1,6 @@
-class Ticker {
+let instance;
+
+export default class Ticker {
   #targetFPS = 60;
   #minFPS = 30;
   #deltaTime = 0;
@@ -9,32 +11,38 @@ class Ticker {
   #listenerList = [];
 
   constructor() {
+    if (instance) return instance;
+    instance = this;
     window.requestAnimationFrame(this.#update.bind(this));
   }
 
-  get elapsedTime() {
-    return this.#elapsedTime;
+  static get instance() {
+    return instance || (instance = new Ticker());
   }
 
-  get deltaTime() {
-    return this.#deltaTime;
+  static get elapsedTime() {
+    return this.instance.#elapsedTime;
   }
 
-  get speed() {
-    return this.#speed;
+  static get deltaTime() {
+    return this.instance.#deltaTime;
   }
 
-  add(fn, context, index) {
+  static get speed() {
+    return this.instance.#speed;
+  }
+
+  static add(fn, context, index) {
     const listener = { fn, context };
     if (index) {
-      this.#listenerList.splice(index - 1, 0, listener);
+      this.instance.#listenerList.splice(index - 1, 0, listener);
     } else {
-      this.#listenerList.push(listener);
+      this.instance.#listenerList.push(listener);
     }
   }
 
-  remove(fn, context) {
-    this.#listenerList = this.#listenerList.filter(listener => {
+  static remove(fn, context) {
+    this.instance.#listenerList = this.instance.#listenerList.filter(listener => {
       return !(listener.fn === fn && listener.context === context);
     });
   }
@@ -59,5 +67,3 @@ class Ticker {
     window.requestAnimationFrame(this.#update.bind(this));
   }
 }
-
-export default new Ticker();

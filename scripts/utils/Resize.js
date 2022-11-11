@@ -1,25 +1,33 @@
-class ResizeManager {
+let instance;
+
+export default class Resize {
   #listenerList = [];
   #timeoutId;
   
   constructor() {
+    if (instance) return instance;
+    instance = this;
     window.addEventListener('resize', () => {
       if (this.#timeoutId) clearTimeout(this.#timeoutId);
       this.#timeoutId = setTimeout(this.#onResize.bind(this), 200);
     });
   }
 
-  add(fn, context, index) {
+  static get instance() {
+    return instance || (instance = new Resize());
+  }
+
+  static add(fn, context, index) {
     const listener = { fn, context };
     if (index) {
-      this.#listenerList.splice(index - 1, 0, listener);
+      this.instance.#listenerList.splice(index - 1, 0, listener);
     } else {
-      this.#listenerList.push(listener);
+      this.instance.#listenerList.push(listener);
     }
   }
 
-  remove(fn, context) {
-    this.#listenerList = this.#listenerList.filter(listener => {
+  static remove(fn, context) {
+    this.instance.#listenerList = this.instance.#listenerList.filter(listener => {
       return !(listener.fn === fn && listener.context === context);
     });
   }
@@ -33,5 +41,3 @@ class ResizeManager {
     }
   }
 }
-
-export default new ResizeManager();

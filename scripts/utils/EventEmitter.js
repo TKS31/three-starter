@@ -1,16 +1,27 @@
-class EventEmitter {
+let instance;
+
+export default class EventEmitter {
   #listeners = new Map();
 
-  on(type, listener) {
-    if (!this.#listeners.has(type)) {
-      this.#listeners.set(type, new Set());
+  constructor() {
+    if (instance) return instance;
+    instance = this;
+  }
+
+  static get instance() {
+    return instance || (instance = new EventEmitter());
+  }
+
+  static on(type, listener) {
+    if (!this.instance.#listeners.has(type)) {
+      this.instance.#listeners.set(type, new Set());
     }
-    const listenerSet = this.#listeners.get(type);
+    const listenerSet = this.instance.#listeners.get(type);
     listenerSet.add(listener);
   }
 
-  emit(type, ...args) {
-    const listenerSet = this.#listeners.get(type);
+  static emit(type, ...args) {
+    const listenerSet = this.instance.#listeners.get(type);
     if (!listenerSet) return;
 
     if (args) {
@@ -24,8 +35,8 @@ class EventEmitter {
     }
   }
 
-  remove(type, listener) {
-    const listenerSet = this.#listeners.get(type);
+  static remove(type, listener) {
+    const listenerSet = this.instance.#listeners.get(type);
     if (!listenerSet) return;
 
     listenerSet.forEach(ownListener => {
@@ -35,5 +46,3 @@ class EventEmitter {
     });
   }
 }
-
-export default new EventEmitter();
