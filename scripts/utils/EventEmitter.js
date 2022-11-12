@@ -3,11 +3,6 @@ let instance;
 export default class EventEmitter {
   #listeners = new Map();
 
-  constructor() {
-    if (instance) return instance;
-    instance = this;
-  }
-
   static get instance() {
     return instance || (instance = new EventEmitter());
   }

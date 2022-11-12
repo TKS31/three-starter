@@ -11,8 +11,6 @@ export default class Ticker {
   #listenerList = [];
 
   constructor() {
-    if (instance) return instance;
-    instance = this;
     window.requestAnimationFrame(this.#update.bind(this));
   }
 

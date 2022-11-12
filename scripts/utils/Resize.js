@@ -5,8 +5,6 @@ export default class Resize {
   #timeoutId;
   
   constructor() {
-    if (instance) return instance;
-    instance = this;
     window.addEventListener('resize', () => {
       if (this.#timeoutId) clearTimeout(this.#timeoutId);
       this.#timeoutId = setTimeout(this.#onResize.bind(this), 200);
