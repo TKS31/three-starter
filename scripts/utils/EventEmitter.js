@@ -1,43 +1,40 @@
-let instance;
-
-export default class EventEmitter {
+class EventEmitter {
   #listeners = new Map();
 
-  static get instance() {
-    return instance || (instance = new EventEmitter());
-  }
-
-  static on(type, listener) {
-    if (!this.instance.#listeners.has(type)) {
-      this.instance.#listeners.set(type, new Set());
+  on(type, listener) {
+    if (!this.#listeners.has(type)) {
+      this.#listeners.set(type, new Set());
     }
-    const listenerSet = this.instance.#listeners.get(type);
-    listenerSet.add(listener);
+    const listenerList = this.#listeners.get(type);
+    listenerList.add(listener);
   }
 
-  static emit(type, ...args) {
-    const listenerSet = this.instance.#listeners.get(type);
-    if (!listenerSet) return;
+  emit(type, ...args) {
+    if (!this.#listeners.has(type)) return;
+
+    const listenerList = this.#listeners.get(type);
 
     if (args) {
-      listenerSet.forEach(listener => {
+      listenerList.forEach(listener => {
         listener(...args);
       });
     } else {
-      listenerSet.forEach(listener => {
+      listenerList.forEach(listener => {
         listener();
       });
     }
   }
 
-  static remove(type, listener) {
-    const listenerSet = this.instance.#listeners.get(type);
-    if (!listenerSet) return;
+  remove(type, listener) {
+    if (!this.#listeners.has(type)) return;
+    const listenerList = this.#listeners.get(type);
 
-    listenerSet.forEach(ownListener => {
+    listenerList.forEach(ownListener => {
       if (ownListener === listener) {
-        listenerSet.delete(listener);
+        listenerList.delete(listener);
       }
     });
   }
 }
+
+export default new EventEmitter;
