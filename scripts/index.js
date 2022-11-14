@@ -1,7 +1,7 @@
 import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Plane from './webgl/objects/Plane.js';
-import Webgl from './webgl/Webgl.js';
+import useWebgl from './webgl/useWebgl.js';
 import Resize from './utils/Resize.js';
 import Ticker from './utils/Ticker.js';
 
@@ -14,9 +14,11 @@ class App {
     this.loader = new TextureLoader();
     this.gltfLoader = new GLTFLoader();
     this.plane = new Plane();
-    Webgl.scene.add(this.plane.mesh);
+    const { scene } = useWebgl();
+    scene.add(this.plane.mesh);
     this.addEvents();
-    Ticker.add(this.update, this, 1);
+    this.tickId = Ticker.add(this.update.bind(this));
+    
   }
 
   loadTexture(path) {
@@ -36,16 +38,14 @@ class App {
   }
 
   update({ elapsedTime, deltaTime, speed }) {
-    Webgl.update();
     this.plane.update({ elapsedTime });
   }
 
   addEvents() {
-    Resize.add(this.onResize, this, 1);
+    this.resizeId = Resize.add(this.onResize.bind(this));
   }
 
   onResize() {
-    Webgl.onResize();
     this.plane.onResize();
   }
 }
