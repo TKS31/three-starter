@@ -1,7 +1,7 @@
-let instance;
+import { nanoid } from "nanoid";
 
-export default class Resize {
-  #listenerList = [];
+class Resize {
+  #callbacks = [];
   #timeoutId;
   
   constructor() {
@@ -11,31 +11,28 @@ export default class Resize {
     });
   }
 
-  static get instance() {
-    return instance || (instance = new Resize());
+  add(callback, priority = 0) {
+    const id = nanoid();
+
+    this.#callbacks.push({ id, callback, priority });
+    this.#callbacks.sort((a, b) => b.priority - a.priority);
+
+    return id;
   }
 
-  static add(fn, context, index) {
-    const listener = { fn, context };
-    if (index) {
-      this.instance.#listenerList.splice(index - 1, 0, listener);
-    } else {
-      this.instance.#listenerList.push(listener);
-    }
-  }
-
-  static remove(fn, context) {
-    this.instance.#listenerList = this.instance.#listenerList.filter(listener => {
-      return !(listener.fn === fn && listener.context === context);
+  remove(id) {
+    this.#callbacks = this.#callbacks.filter(callback => {
+      return callback.id !== id;
     });
   }
 
   #onResize() {
-    if (this.#listenerList.length) {
-      for (let i = 0; i < this.#listenerList.length; i++) {
-        const listener = this.#listenerList[i];
-        listener.fn.call(listener.context);
+    if (this.#callbacks.length) {
+      for (let i = 0; i < this.#callbacks.length; i++) {
+        this.#callbacks[i].callback();
       }
     }
   }
 }
+
+export default new Resize();

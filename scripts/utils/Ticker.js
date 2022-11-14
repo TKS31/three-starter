@@ -1,47 +1,43 @@
-let instance;
+import { nanoid } from 'nanoid';
 
-export default class Ticker {
+class Ticker {
   #targetFPS = 60;
   #minFPS = 30;
   #deltaTime = 0;
   #elapsedTime = 0;
-  #previousTime;
+  #previousTime = null;
   #speed = 1;
   #maxSpeed = this.#targetFPS / this.#minFPS;
-  #listenerList = [];
+  #callbacks = [];
 
   constructor() {
     window.requestAnimationFrame(this.#update.bind(this));
   }
 
-  static get instance() {
-    return instance || (instance = new Ticker());
+  get elapsedTime() {
+    return this.#elapsedTime;
   }
 
-  static get elapsedTime() {
-    return this.instance.#elapsedTime;
+  get deltaTime() {
+    return this.#deltaTime;
   }
 
-  static get deltaTime() {
-    return this.instance.#deltaTime;
+  get speed() {
+    return this.#speed;
   }
 
-  static get speed() {
-    return this.instance.#speed;
+  add(callback, priority = 0) {
+    const id = nanoid();
+
+    this.#callbacks.push({ id, callback, priority });
+    this.#callbacks.sort((a, b) => b.priority - a.priority);
+
+    return id;
   }
 
-  static add(fn, context, index) {
-    const listener = { fn, context };
-    if (index) {
-      this.instance.#listenerList.splice(index - 1, 0, listener);
-    } else {
-      this.instance.#listenerList.push(listener);
-    }
-  }
-
-  static remove(fn, context) {
-    this.instance.#listenerList = this.instance.#listenerList.filter(listener => {
-      return !(listener.fn === fn && listener.context === context);
+  remove(id) {
+    this.#callbacks = this.#callbacks.filter(callback => {
+      return callback.id !== id;
     });
   }
 
@@ -52,16 +48,18 @@ export default class Ticker {
     this.#previousTime = timestamp;
     this.#speed = Math.min(this.#deltaTime * this.#targetFPS, this.#maxSpeed);
 
-    if (this.#listenerList.length) {
-      for (let i = 0; i < this.#listenerList.length; i++) {
-        const listener = this.#listenerList[i];
-        listener.fn.call(
-          listener.context,
-          { elapsedTime: this.#elapsedTime, deltaTime: this.#deltaTime, speed: this.#speed }
-        );
+    if (this.#callbacks.length) {
+      for (let i = 0; i < this.#callbacks.length; i++) {
+        this.#callbacks[i].callback({
+          elapsedTime: this.#elapsedTime,
+          deltaTime: this.#deltaTime,
+          speed: this.#speed
+        });
       }
     }
 
     window.requestAnimationFrame(this.#update.bind(this));
   }
 }
+
+export default new Ticker();
