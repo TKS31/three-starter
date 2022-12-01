@@ -6,8 +6,8 @@ class Ticker {
   #deltaTime = 0;
   #elapsedTime = 0;
   #previousTime = null;
-  #speed = 1;
-  #maxSpeed = this.#targetFPS / this.#minFPS;
+  #deltaRatio = 1;
+  #maxDeltaRatio = this.#targetFPS / this.#minFPS;
   #callbacks = [];
 
   constructor() {
@@ -22,8 +22,8 @@ class Ticker {
     return this.#deltaTime;
   }
 
-  get speed() {
-    return this.#speed;
+  get deltaRatio() {
+    return this.#deltaRatio;
   }
 
   add(callback, priority = 0) {
@@ -46,14 +46,14 @@ class Ticker {
     this.#elapsedTime = timestamp / 1000;
     this.#deltaTime = (timestamp - this.#previousTime) / 1000;
     this.#previousTime = timestamp;
-    this.#speed = Math.min(this.#deltaTime * this.#targetFPS, this.#maxSpeed);
+    this.#deltaRatio = Math.min(this.#deltaTime * this.#targetFPS, this.#maxDeltaRatio);
 
     if (this.#callbacks.length) {
       for (let i = 0; i < this.#callbacks.length; i++) {
         this.#callbacks[i].callback({
           elapsedTime: this.#elapsedTime,
           deltaTime: this.#deltaTime,
-          speed: this.#speed
+          deltaRatio: this.#deltaRatio
         });
       }
     }

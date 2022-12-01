@@ -37,7 +37,7 @@ class App {
     });
   }
 
-  update({ elapsedTime, deltaTime, speed }) {
+  update({ elapsedTime, deltaTime, deltaRatio }) {
     this.plane.update({ elapsedTime });
   }
 
