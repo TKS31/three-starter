@@ -2,7 +2,7 @@ import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Plane from './webgl/objects/Plane.js';
 import useWebgl from './webgl/useWebgl.js';
-import Resize from './utils/Resize.js';
+import Size from './utils/Size.js';
 import Ticker from './utils/Ticker.js';
 
 class App {
@@ -42,7 +42,7 @@ class App {
   }
 
   addEvents() {
-    this.resizeId = Resize.add(this.onResize.bind(this));
+    this.resizeId = Size.addResizeHandler(this.onResize.bind(this));
   }
 
   onResize() {

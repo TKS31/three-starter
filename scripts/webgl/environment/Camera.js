@@ -1,10 +1,11 @@
 import { PerspectiveCamera } from "three";
+import Size from "../../utils/Size";
 
 export default class Camera extends PerspectiveCamera {
   constructor() {
     super(
       60,
-      window.innerWidth / window.innerHeight,
+      Size.width / Size.height,
       0.1,
       20
     );
@@ -19,7 +20,7 @@ export default class Camera extends PerspectiveCamera {
   }
 
   onResize() {
-    this.aspect = window.innerWidth / window.innerHeight;
+    this.aspect = Size.width / Size.height;
     this.updateProjectionMatrix();
   }
 }

@@ -1,4 +1,5 @@
 import { ACESFilmicToneMapping, PCFSoftShadowMap, sRGBEncoding, WebGLRenderer } from "three";
+import Size from "../../utils/Size";
 
 export default class Renderer extends WebGLRenderer {
   constructor() {
@@ -6,8 +7,8 @@ export default class Renderer extends WebGLRenderer {
       canvas: document.getElementById('canvas'),
       alpha: false
     });
-    this.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.setSize(window.innerWidth, window.innerHeight);
+    this.setPixelRatio(Size.dpr);
+    this.setSize(Size.width, Size.height);
   }
 
   renderPhisicalyBased() {
@@ -19,7 +20,7 @@ export default class Renderer extends WebGLRenderer {
   }
 
   onResize() {
-    this.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.setSize(window.innerWidth, window.innerHeight);
+    this.setPixelRatio(Size.dpr);
+    this.setSize(Size.width, Size.height);
   }
 }

@@ -3,7 +3,7 @@ import Renderer from './environment/Renderer.js';
 import Camera from './environment/Camera.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Ticker from '../utils/Ticker.js';
-import Resize from '../utils/Resize.js';
+import Size from '../utils/Size.js';
 
 let instance;
 
@@ -15,7 +15,7 @@ class Webgl {
   #controls = new OrbitControls(this.#camera, this.#renderer.domElement);
 
   constructor() {
-    this.resizeId = Resize.add(this.onResize.bind(this), 10);
+    this.resizeId = Size.addResizeHandler(this.onResize.bind(this), 10);
     this.tickId = Ticker.add(this.update.bind(this), 10);
   }
 
