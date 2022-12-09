@@ -2,7 +2,7 @@ import { PlaneGeometry, ShaderMaterial, Mesh } from "three";
 import vertexShader from '../shaders/plane/vertex.glsl';
 import fragmentShader from '../shaders/plane/fragment.glsl';
 
-export default class Plane {
+export class Plane {
   constructor() {
     this.create();
   }

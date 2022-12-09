@@ -1,6 +1,6 @@
 import { Scene } from 'three';
-import Renderer from './environment/Renderer.js';
-import Camera from './environment/Camera.js';
+import { Renderer } from './environment/Renderer.js';
+import { Camera } from './environment/Camera.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Ticker } from '../utils/Ticker.js';
 import { Size } from '../utils/Size.js';
@@ -46,8 +46,6 @@ class Webgl {
   }
 }
 
-const useWebgl = () => {
+export const useWebgl = () => {
   return instance || (instance = new Webgl());
 };
-
-export default useWebgl;

@@ -1,7 +1,7 @@
 import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import Plane from './webgl/objects/Plane.js';
-import useWebgl from './webgl/useWebgl.js';
+import { Plane } from './webgl/objects/Plane.js';
+import { useWebgl } from './webgl/useWebgl.js';
 import { Size } from './utils/Size.js';
 import { Ticker } from './utils/Ticker.js';
 

@@ -1,7 +1,7 @@
 import { ACESFilmicToneMapping, PCFSoftShadowMap, sRGBEncoding, WebGLRenderer } from "three";
 import { Size } from "../../utils/Size";
 
-export default class Renderer extends WebGLRenderer {
+export class Renderer extends WebGLRenderer {
   constructor() {
     super({
       canvas: document.getElementById('canvas'),

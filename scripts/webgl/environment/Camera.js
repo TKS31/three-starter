@@ -1,7 +1,7 @@
 import { PerspectiveCamera } from "three";
 import { Size } from "../../utils/Size";
 
-export default class Camera extends PerspectiveCamera {
+export class Camera extends PerspectiveCamera {
   constructor() {
     super(
       60,
