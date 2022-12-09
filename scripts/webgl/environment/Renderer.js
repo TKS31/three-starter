@@ -1,5 +1,5 @@
 import { ACESFilmicToneMapping, PCFSoftShadowMap, sRGBEncoding, WebGLRenderer } from "three";
-import Size from "../../utils/Size";
+import { Size } from "../../utils/Size";
 
 export default class Renderer extends WebGLRenderer {
   constructor() {

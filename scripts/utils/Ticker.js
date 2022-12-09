@@ -62,4 +62,6 @@ class Ticker {
   }
 }
 
-export default new Ticker();
+const ticker = new Ticker();
+
+export { ticker as Ticker };

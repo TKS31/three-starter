@@ -58,4 +58,6 @@ class Size {
   }
 }
 
-export default new Size();
+const size = new Size();
+
+export { size as Size };
