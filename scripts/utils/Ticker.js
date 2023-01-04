@@ -1,16 +1,24 @@
 import { nanoid } from 'nanoid';
 
 class Ticker {
-  #targetFPS = 60;
-  #minFPS = 30;
-  #deltaTime = 0;
-  #elapsedTime = 0;
-  #previousTime = null;
-  #deltaRatio = 1;
-  #maxDeltaRatio = this.#targetFPS / this.#minFPS;
-  #callbacks = [];
+  #targetFPS;
+  #minFPS;
+  #deltaTime;
+  #elapsedTime;
+  #previousTime;
+  #deltaRatio;
+  #maxDeltaRatio;
+  #callbacks;
 
   constructor() {
+    this.#targetFPS = 60;
+    this.#minFPS = 30;
+    this.#deltaTime = 0;
+    this.#elapsedTime = 0;
+    this.#previousTime = null;
+    this.#deltaRatio = 1;
+    this.#maxDeltaRatio = this.#targetFPS / this.#minFPS;
+    this.#callbacks = [];
     window.requestAnimationFrame(this.#update.bind(this));
   }
 
