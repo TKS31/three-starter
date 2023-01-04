@@ -7,5 +7,5 @@ export const $ = (selector) => {
 }
 
 export const $$ = (selector) => {
-  return document.querySelectorAll(selector);
+  return [...document.querySelectorAll(selector)];
 }
