@@ -8,44 +8,27 @@ import { Size } from '../utils/Size.js';
 let instance;
 
 class Webgl {
-  #scene = new Scene();
-  #renderer = new Renderer();
-  #camera = new Camera();
-  #viewPort = this.#camera.viewPort;
-  #controls = new OrbitControls(this.#camera, this.#renderer.domElement);
-
   constructor() {
+    this.scene = new Scene();
+    this.renderer = new Renderer();
+    this.camera = new Camera();
+    this.viewPort = this.camera.viewPort;
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.resizeId = Size.addResizeHandler(this.onResize.bind(this), 10);
     this.tickId = Ticker.add(this.update.bind(this), 10);
   }
 
   update() {
-    this.#renderer.render(this.#scene, this.#camera);
+    this.renderer.render(this.scene, this.camera);
   }
 
   onResize() {
-    this.#renderer.onResize();
-    this.#camera.onResize();
-    this.#viewPort = this.#camera.viewPort;
-  }
-
-  get scene() {
-    return this.#scene;
-  }
-
-  get renderer() {
-    return this.#renderer;
-  }
-
-  get camera() {
-    return this.#camera;
-  }
-
-  get viewPort() {
-    return this.#viewPort;
+    this.renderer.onResize();
+    this.camera.onResize();
+    this.viewPort = this.camera.viewPort;
   }
 }
 
-export const useWebgl = () => {
+export function useWebgl() {
   return instance || (instance = new Webgl());
 };

@@ -1,18 +1,20 @@
 class EventEmitter {
-  #listeners = new Map();
+  constructor() {
+    this.listeners = new Map();
+  }
 
   on(type, listener) {
-    if (!this.#listeners.has(type)) {
-      this.#listeners.set(type, new Set());
+    if (!this.listeners.has(type)) {
+      this.listeners.set(type, new Set());
     }
-    const listenerList = this.#listeners.get(type);
+    const listenerList = this.listeners.get(type);
     listenerList.add(listener);
   }
 
   emit(type, ...args) {
-    if (!this.#listeners.has(type)) return;
+    if (!this.listeners.has(type)) return;
 
-    const listenerList = this.#listeners.get(type);
+    const listenerList = this.listeners.get(type);
 
     if (args) {
       listenerList.forEach(listener => {
@@ -26,7 +28,7 @@ class EventEmitter {
   }
 
   remove(type, listener) {
-    if (!this.#listeners.has(type)) return;
+    if (!this.listeners.has(type)) return;
     const listenerList = this.#listeners.get(type);
 
     listenerList.forEach(ownListener => {
