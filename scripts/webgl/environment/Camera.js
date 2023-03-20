@@ -4,7 +4,7 @@ import { Size } from "../../utils/Size";
 export class Camera extends PerspectiveCamera {
   constructor() {
     super(
-      60,
+      45,
       Size.width / Size.height,
       0.1,
       20
