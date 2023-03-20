@@ -1,11 +1,11 @@
-export const id = (name) => {
+export function id(name) {
   return document.getElementById(name);
 }
 
-export const $ = (selector) => {
+export function $(selector) {
   return document.querySelector(selector);
 }
 
-export const $$ = (selector) => {
+export function $$(selector) {
   return [...document.querySelectorAll(selector)];
 }
