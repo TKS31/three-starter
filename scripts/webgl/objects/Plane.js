@@ -1,6 +1,6 @@
 import { PlaneGeometry, ShaderMaterial, Mesh } from "three";
-import vertexShader from '../shaders/plane/vertex.glsl';
-import fragmentShader from '../shaders/plane/fragment.glsl';
+import vertexShader from '../shaders/plane/vertex.glsl?raw';
+import fragmentShader from '../shaders/plane/fragment.glsl?raw';
 
 export class Plane {
   constructor() {
