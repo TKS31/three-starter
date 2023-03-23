@@ -37,7 +37,7 @@ export class App {
     });
   }
 
-  update({ elapsedTime, deltaTime, deltaRatio }) {
+  update({ elapsedTime, deltaTime, ratio }) {
     this.plane.update({ elapsedTime });
   }
 
