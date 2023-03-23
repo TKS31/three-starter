@@ -1,23 +1,30 @@
-import { nanoid } from 'nanoid';
-
 class Ticker {
-  constructor() {
-    this.targetFPS = 60;
-    this.minFPS = 30;
+  constructor({ autoStart = true } = {}) {
+    this.id = 0;
+    this.fps = 60;
     this.deltaTime = 0;
     this.elapsedTime = 0;
-    this.previousTime = null;
-    this.deltaRatio = 1;
-    this.maxDeltaRatio = this.targetFPS / this.minFPS;
+    this.lastTime = 0;
+    this.ratio = 1;
     this.callbacks = [];
-    window.requestAnimationFrame(this.update.bind(this));
+    if (autoStart) this.start();
+  }
+  
+  start() {
+    this.requestId = requestAnimationFrame(this.tick.bind(this));
+  }
+
+  stop() {
+    cancelAnimationFrame(this.requestId);
   }
 
   add(callback, priority = 0) {
-    const id = nanoid();
+    const id = this.id;
 
     this.callbacks.push({ id, callback, priority });
     this.callbacks.sort((a, b) => b.priority - a.priority);
+
+    this.id += 1;
 
     return id;
   }
@@ -28,24 +35,33 @@ class Ticker {
     });
   }
 
-  update(timestamp) {
-    if (!this.previousTime) this.previousTime = timestamp;
-    this.elapsedTime = timestamp * 0.001;
-    this.deltaTime = (timestamp - this.previousTime) * 0.001;
-    this.previousTime = timestamp;
-    this.deltaRatio = Math.min(this.deltaTime * this.targetFPS, this.maxDeltaRatio);
+  tick(timestamp) {
+    if (this.lastTime === 0) this.lastTime = timestamp;
+
+    this.deltaTime = (timestamp - this.lastTime) * 0.001;
+
+    if (this.deltaTime !== 0) {
+      this.fps = Math.round(1 / this.deltaTime);
+    }
+
+    this.ratio = Math.round(60 * this.deltaTime);
+
+    this.elapsedTime += this.deltaTime;
+
+    this.lastTime = timestamp;
 
     if (this.callbacks.length) {
       for (let i = 0; i < this.callbacks.length; i++) {
         this.callbacks[i].callback({
-          elapsedTime: this.elapsedTime,
+          fps: this.fps,
           deltaTime: this.deltaTime,
-          deltaRatio: this.deltaRatio
+          ratio: this.ratio,
+          elapsedTime: this.elapsedTime
         });
       }
     }
 
-    window.requestAnimationFrame(this.update.bind(this));
+    requestAnimationFrame(this.tick.bind(this));
   }
 }
 

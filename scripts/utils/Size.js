@@ -1,7 +1,6 @@
-import { nanoid } from "nanoid";
-
 class Size {
   constructor() {
+    this.id = 0;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.dpr = Math.min(window.devicePixelRatio, 2);
@@ -15,10 +14,12 @@ class Size {
   }
 
   addResizeHandler(handler, priority = 0) {
-    const id = nanoid();
+    const id = this.id;
 
     this.handlers.push({ id, handler, priority });
     this.handlers.sort((a, b) => b.priority - a.priority);
+
+    this.id += 1;
 
     return id;
   }

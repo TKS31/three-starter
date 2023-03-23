@@ -5,8 +5,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Ticker } from '../utils/Ticker.js';
 import { Size } from '../utils/Size.js';
 
-let instance;
-
 class Webgl {
   constructor() {
     this.scene = new Scene();
@@ -29,6 +27,8 @@ class Webgl {
   }
 }
 
+const webgl = new Webgl();
+
 export function useWebgl() {
-  return instance || (instance = new Webgl());
+  return webgl;
 };
