@@ -1,39 +1,33 @@
 class EventEmitter {
   constructor() {
-    this.listeners = new Map();
+    this.callbacks = new Map();
   }
 
-  on(type, listener) {
-    if (!this.listeners.has(type)) {
-      this.listeners.set(type, new Set());
+  on(type, callback) {
+    if (!this.callbacks.has(type)) {
+      this.callbacks.set(type, new Set());
     }
-    const listenerList = this.listeners.get(type);
-    listenerList.add(listener);
+    const callbackList = this.callbacks.get(type);
+    callbackList.add(callback);
   }
 
   emit(type, ...args) {
-    if (!this.listeners.has(type)) return;
+    if (!this.callbacks.has(type)) return;
 
-    const listenerList = this.listeners.get(type);
+    const callbackList = this.callbacks.get(type);
 
-    if (args) {
-      listenerList.forEach(listener => {
-        listener(...args);
-      });
-    } else {
-      listenerList.forEach(listener => {
-        listener();
-      });
-    }
+    callbackList.forEach(callback => {
+      callback(...args);
+    });
   }
 
-  remove(type, listener) {
-    if (!this.listeners.has(type)) return;
-    const listenerList = this.#listeners.get(type);
+  remove(type, callback) {
+    if (!this.callbacks.has(type)) return;
+    const callbackList = this.callbacks.get(type);
 
-    listenerList.forEach(ownListener => {
-      if (ownListener === listener) {
-        listenerList.delete(listener);
+    callbackList.forEach(cb => {
+      if (cb === callback) {
+        callbackList.delete(cb);
       }
     });
   }

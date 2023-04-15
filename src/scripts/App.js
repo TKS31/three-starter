@@ -1,9 +1,9 @@
-import { TextureLoader } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Plane } from './webgl/objects/Plane.js';
-import { useWebgl } from './webgl/useWebgl.js';
-import { Size } from './utils/Size.js';
-import { Ticker } from './utils/Ticker.js';
+import Resizer from "@chenziappu/resizer";
+import Ticker from "@chenziappu/ticker";
+
+import { Webgl } from "./webgl/Webgl";
+import { Plane } from "./webgl/objects/Plane";
+import { $ } from "./helpers/dom";
 
 export class App {
   constructor() {
@@ -11,41 +11,23 @@ export class App {
   }
 
   async init() {
-    this.loader = new TextureLoader();
-    this.gltfLoader = new GLTFLoader();
+    this.resizer = new Resizer({ timeout: 200 });
+    this.ticker = new Ticker();
+
+    this.webgl = new Webgl($('.canvas'));
+
     this.plane = new Plane();
-    const { scene } = useWebgl();
-    scene.add(this.plane.mesh);
-    this.addEvents();
-    this.tickId = Ticker.add(this.update.bind(this));
-    
+    this.webgl.add(this.plane.mesh);
+
+    this.resizeId = this.resizer.add(this.resize.bind(this));
+    this.tickId = this.ticker.add(this.raf.bind(this));
   }
 
-  loadTexture(path) {
-    return new Promise(resolve => {
-      this.loader.load(path, texture => {
-        resolve(texture);
-      });
-    });
+  raf({ fps, deltaTime, ratio, elapsedTime }) {
+    this.webgl.raf();
   }
 
-  loadModel(path) {
-    return new Promise(resolve => {
-      this.gltfLoader.load(path, gltf => {
-        resolve(gltf);
-      });
-    });
-  }
-
-  update({ elapsedTime, deltaTime, ratio }) {
-    this.plane.update({ elapsedTime });
-  }
-
-  addEvents() {
-    this.resizeId = Size.addResizeHandler(this.onResize.bind(this));
-  }
-
-  onResize() {
-    this.plane.onResize();
+  resize({ width, height, dpr }) {
+    this.webgl.resize({ width, height, dpr });
   }
 }
