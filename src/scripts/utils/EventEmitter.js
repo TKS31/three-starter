@@ -7,6 +7,7 @@ class EventEmitter {
     if (!this.callbacks.has(type)) {
       this.callbacks.set(type, new Set());
     }
+    
     const callbackList = this.callbacks.get(type);
     callbackList.add(callback);
   }
@@ -23,6 +24,7 @@ class EventEmitter {
 
   remove(type, callback) {
     if (!this.callbacks.has(type)) return;
+
     const callbackList = this.callbacks.get(type);
 
     callbackList.forEach(cb => {
