@@ -49,7 +49,7 @@ export class Webgl {
 
   get viewSize() {
     const fovInRadian = this.camera.fov * Math.PI / 180;
-    const height = Math.tan(fovInRadian / 2) * this.camera.position.z * 2;
+    const height = Math.tan(fovInRadian * 0.5) * this.camera.position.z * 2;
     const width = height * this.camera.aspect;
     return { width, height };
   }
