@@ -1,7 +1,7 @@
-export function $(selector) {
-  return document.querySelector(selector);
+export function $(selector, element = document) {
+  return element.querySelector(selector);
 }
 
-export function $$(selector) {
-  return [...document.querySelectorAll(selector)];
+export function $$(selector, element = document) {
+  return [...element.querySelectorAll(selector)];
 }
