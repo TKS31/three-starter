@@ -20,7 +20,7 @@
     });
   }
 
-  static remove(type, callback) {
+  static off(type, callback) {
     if (!this.callbacks.has(type)) return;
 
     const callbackList = this.callbacks.get(type);
