@@ -1,9 +1,7 @@
 import Resizer from "@chenziappu/resizer";
 import Ticker from "@chenziappu/ticker";
 
-import { Webgl } from "./webgl/Webgl";
-import { Plane } from "./webgl/objects/Plane";
-import { $ } from "./helpers/dom";
+import { Canvas } from "./components/Canvas";
 
 export class App {
   constructor() {
@@ -11,23 +9,20 @@ export class App {
   }
 
   async init() {
+    this.canvas = new Canvas();
+    
     this.resizer = new Resizer({ timeout: 200 });
     this.ticker = new Ticker();
-
-    this.webgl = new Webgl($('.canvas'));
-
-    this.plane = new Plane();
-    this.webgl.add(this.plane.mesh);
 
     this.resizeId = this.resizer.add(this.resize.bind(this));
     this.tickId = this.ticker.add(this.raf.bind(this));
   }
 
   raf({ fps, deltaTime, ratio, elapsedTime }) {
-    this.webgl.raf();
+    this.canvas.raf();
   }
 
   resize({ width, height, dpr }) {
-    this.webgl.resize({ width, height, dpr });
+    this.canvas.resize({ width, height, dpr });
   }
 }
