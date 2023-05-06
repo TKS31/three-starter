@@ -1,49 +1,35 @@
-import { WebGLRenderer, PerspectiveCamera, Scene } from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-
 import { $ } from "../helpers/dom";
-import { Plane } from '../webgl/objects/Plane';
+import { getSize } from "../helpers/getSize";
+import { createPlane } from '../webgl/objects/createPlane';
+import { useWebGL } from "../webgl/useWebGL";
 
-export class Canvas {
-  constructor() {
-    this.el = $('.canvas');
+export function Canvas() {
+  const dom = {
+    wrapper: $('.canvas-wrapper')
+  };
+  
+  const { width, height, dpr } = getSize();
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const dpr = Math.min(window.devicePixelRatio, 2);
+  const webgl = useWebGL({ width, height, dpr });
+  const el = webgl.canvas;
 
-    this.renderer = new WebGLRenderer({
-      canvas: this.el,
-      alpha: false
-    });
-    this.renderer.setPixelRatio(dpr);
-    this.renderer.setSize(width, height);
+  dom.wrapper.appendChild(el);
 
-    this.camera = new PerspectiveCamera(
-      45,
-      width / height,
-      0.1,
-      100
-    );
-    this.camera.position.z = 10;
+  const plane = createPlane();
+  webgl.add(plane);
 
-    this.scene = new Scene();
-
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-
-    this.plane = new Plane();
-    this.scene.add(this.plane.mesh);
+  function raf() {
+    webgl.render();
   }
 
-  raf() {
-    this.renderer.render(this.scene, this.camera);
+  function resize({ width, height, dpr }) {
+    webgl.resize({ width, height, dpr });
   }
 
-  resize({ width, height, dpr }) {
-    this.renderer.setPixelRatio(dpr);
-    this.renderer.setSize(width, height);
-
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
+  return {
+    el,
+    dom,
+    raf,
+    resize
   }
 }
