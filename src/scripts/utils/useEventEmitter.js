@@ -32,13 +32,13 @@ export function EventEmitter() {
     });
   }
 
-  return () => {{
+  return () => {
     return {
       on,
       emit,
       off
     }
-  }}
+  }
 }
 
 export const useEventEmitter = EventEmitter();
