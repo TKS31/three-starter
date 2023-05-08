@@ -4,7 +4,7 @@ import Ticker from "@chenziappu/ticker";
 import { Canvas } from "./components/Canvas";
 
 function main() {
-  const canvas = Canvas();
+  const canvas = new Canvas();
 
   const resizer = new Resizer({ timeout: 200 });
   const ticker = new Ticker();

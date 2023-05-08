@@ -1,35 +1,30 @@
 import { $ } from "../helpers/dom";
 import { getSize } from "../helpers/getSize";
-import { createPlane } from '../webgl/objects/createPlane';
-import { useWebGL } from "../webgl/useWebGL";
+import { Plane } from '../webgl/objects/Plane';
+import { WebGL } from "../webgl/WebGL";
 
-export function Canvas() {
-  const dom = {
-    wrapper: $('.canvas-wrapper')
-  };
-  
-  const { width, height, dpr } = getSize();
+export class Canvas {
+  constructor() {
+    this.refs = {
+      wrapper: $('.canvas-wrapper')
+    };
 
-  const webgl = useWebGL({ width, height, dpr });
-  const el = webgl.canvas;
+    const { width, height, dpr } = getSize();
 
-  dom.wrapper.appendChild(el);
+    this.webgl = new WebGL({ width, height, dpr });
+    this.el = this.webgl.canvas;
 
-  const plane = createPlane();
-  webgl.add(plane);
+    this.refs.wrapper.appendChild(this.el);
 
-  function raf() {
-    webgl.render();
+    const plane = new Plane();
+    this.webgl.add(plane.mesh);
   }
 
-  function resize({ width, height, dpr }) {
-    webgl.resize({ width, height, dpr });
+  raf() {
+    this.webgl.render();
   }
 
-  return {
-    el,
-    dom,
-    raf,
-    resize
+  resize({ width, height, dpr }) {
+    this.webgl.resize({ width, height, dpr });
   }
 }
