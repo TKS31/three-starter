@@ -13,8 +13,8 @@
     "vite-plugin-glsl": "^1.1.2"
   },
   "dependencies": {
-    "@chenziappu/resizer": "^1.0.0",
-    "@chenziappu/ticker": "^1.1.4",
+    "@roukara/resizer": "^0.0.1",
+    "@roukara/ticker": "^0.0.1",
     "gsap": "^3.11.5",
     "lil-gui": "^0.18.1",
     "three": "^0.151.3"

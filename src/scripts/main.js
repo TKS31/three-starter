@@ -1,5 +1,5 @@
-import Resizer from "@chenziappu/resizer";
-import Ticker from "@chenziappu/ticker";
+import Resizer from "@roukara/resizer";
+import Ticker from "@roukara/ticker";
 
 import { Canvas } from "./components/Canvas";
 
