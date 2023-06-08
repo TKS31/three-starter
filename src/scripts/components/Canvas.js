@@ -1,11 +1,11 @@
-import { query } from "../helpers/query";
+import { Dom } from "../utils/Dom";
 import { getWindowSize } from "../helpers/getWindowSize";
 import { Plane } from '../webgl/objects/Plane';
 import { WebGL } from "../webgl/WebGL";
 
 export class Canvas {
   constructor() {
-    this.wrapper = query('.canvas-wrapper');
+    this.wrapper = Dom.query('.canvas-wrapper');
     
     const { width, height, dpr } = getWindowSize();
 
