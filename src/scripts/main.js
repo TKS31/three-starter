@@ -1,10 +1,10 @@
 import Resizer from "@roukara/resizer";
 import Ticker from "@roukara/ticker";
 
-import { Canvas } from "./components/Canvas";
+import { WebGL } from "./components/Webgl";
 
 function main() {
-  const canvas = new Canvas();
+  const webgl = new WebGL({ alpha: true });
 
   const resizer = new Resizer({ timeout: 200 });
   const ticker = new Ticker();
@@ -13,11 +13,11 @@ function main() {
   const tickId = ticker.add(raf);
 
   function raf() {
-    canvas.raf();
+    webgl.update();
   }
 
   function resize({ width, height, dpr }) {
-    canvas.resize({ width, height, dpr });
+    webgl.onResize(width, height, dpr);
   }
 }
 
