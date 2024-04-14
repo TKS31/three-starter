@@ -1,6 +1,6 @@
-import { ComponentProps } from '@/types/ComponentProps';
-import { $ } from '@/utils/dom';
-import { WebGL } from '@/webgl/WebGL';
+import { ComponentProps } from '@/types/ComponentProps'
+import { $ } from '@/utils/dom'
+import { WebGL } from '@/webgl/WebGL'
 
 export default class WebGLCanvas {
   el: Element
