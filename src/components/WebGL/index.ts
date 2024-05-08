@@ -1,7 +1,7 @@
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
-import Component from '../core/Component'
+import Nodo from '@gozentyuclub/nodo'
 
-export default class WebGLCanvas extends Component<HTMLCanvasElement> {
+export default class WebGLCanvas extends Nodo<HTMLCanvasElement> {
   width: number;
   height: number;
   dpr: number;
@@ -10,7 +10,7 @@ export default class WebGLCanvas extends Component<HTMLCanvasElement> {
   scene: Scene;
   
   constructor() {
-    super('.webgl');
+    super('webgl');
 
     this.width = window.innerWidth;
     this.height = window.innerHeight;
