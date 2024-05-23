@@ -16,7 +16,7 @@
     "vite-plugin-glsl": "^1.3.0"
   },
   "dependencies": {
-    "@gozentyuclub/nodo": "^0.0.2",
+    "@gozentyuclub/nodo": "^1.0.2",
     "three": "^0.163.0"
   }
 }
