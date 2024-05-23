@@ -1,17 +1,19 @@
-import CanvasWrapper from "./components/CanvasWrapper";
+import WebGL from "./webgl";
 
 function app() {
-  const canvasWrapper = new CanvasWrapper();
+  const webgl = new WebGL();
+  document.body.appendChild(webgl.canvas);
 
   window.addEventListener('resize', handleResize);
   raf(0);
   
   function handleResize() {
-    canvasWrapper.resize();
+    webgl.resize();
   }
   
   function raf(timestamp: number) {
-    canvasWrapper.update(timestamp);
+    webgl.update(timestamp);
+    webgl.render();
     requestAnimationFrame(raf);
   }
 }
