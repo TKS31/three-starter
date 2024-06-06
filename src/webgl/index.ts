@@ -1,54 +1,51 @@
-import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
-import Simulator from './Simulator';
+import { PerspectiveCamera, Scene, WebGLRenderer, WebGLRendererParameters } from 'three';
 
-export default class WebGL {
-  canvas: HTMLCanvasElement;
+type Size = {
   width: number;
   height: number;
   dpr: number;
+}
+
+export default class WebGL {
   renderer: WebGLRenderer;
+  size: Size;
   camera: PerspectiveCamera;
   scene: Scene;
-  simulator: Simulator;
-  clock: { elapsed: number, delta: number, last: number, frame: number };
+  time: { elapsed: number, delta: number, last: number };
   
-  constructor() {
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
-    this.dpr = Math.min(2, window.devicePixelRatio);
+  constructor(rendererOptions: WebGLRendererParameters = {}) {
+    this.renderer = new WebGLRenderer(rendererOptions);
+    const canvas = this.renderer.domElement;
 
-    this.renderer = new WebGLRenderer({
-      alpha: true
-    });
-    this.renderer.setPixelRatio(this.dpr);
-    this.renderer.setSize(this.width, this.height);
-    this.canvas = this.renderer.domElement;
+    this.size = {
+      width: canvas.clientWidth,
+      height: canvas.clientHeight,
+      dpr: Math.min(2, window.devicePixelRatio)
+    };
 
     this.camera = new PerspectiveCamera(
       45,
-      this.width / this.height,
+      this.size.width / this.size.height,
       .1,
       100
     );
-    this.camera.position.z = 10;
+    this.camera.position.z = 5;
 
     this.scene = new Scene();
-    this.simulator = new Simulator(this.renderer);
 
-    this.clock = {
+    this.time = {
       elapsed: 0,
       delta: 0,
-      last: 0,
-      frame: 0
+      last: 0
     };
   }
 
-  update(timestamp: number) {
-    if (!this.clock.last) this.clock.last = timestamp;
-    this.clock.delta = (timestamp - this.clock.last) * .001;
-    this.clock.elapsed += this.clock.delta;
-    this.clock.last = timestamp;
-    this.clock.frame++;
+  tick() {
+    const timestamp = performance.now() * .001;
+    if (!this.time.last) this.time.last = timestamp;
+    this.time.delta = timestamp - this.time.last;
+    this.time.elapsed += this.time.delta;
+    this.time.last = timestamp;
   }
 
   render() {
@@ -56,15 +53,15 @@ export default class WebGL {
     this.renderer.render(this.scene, this.camera);
   }
 
-  resize() {
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
-    this.dpr = Math.min(2, window.devicePixelRatio);
+  resize(width: number, height: number) {
+    this.size.width = width;
+    this.size.height = height;
+    this.size.dpr = Math.min(2, window.devicePixelRatio);
 
-    this.renderer.setPixelRatio(this.dpr);
-    this.renderer.setSize(this.width, this.height);
+    this.renderer.setPixelRatio(this.size.dpr);
+    this.renderer.setSize(this.size.width, this.size.height);
 
-    this.camera.aspect = this.width / this.height;
+    this.camera.aspect = this.size.width / this.size.height;
     this.camera.updateProjectionMatrix();
   }
 }

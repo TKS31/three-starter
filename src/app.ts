@@ -1,19 +1,17 @@
-import WebGL from "./webgl";
+import WebGLCanvas from "./components/webgl-canvas";
 
 function app() {
-  const webgl = new WebGL();
-  document.body.appendChild(webgl.canvas);
+  const webgl = new WebGLCanvas();
 
   window.addEventListener('resize', handleResize);
-  raf(0);
+  raf();
   
   function handleResize() {
-    webgl.resize();
+    webgl.resize(window.innerWidth, window.innerHeight);
   }
   
-  function raf(timestamp: number) {
-    webgl.update(timestamp);
-    webgl.render();
+  function raf() {
+    webgl.update();
     requestAnimationFrame(raf);
   }
 }

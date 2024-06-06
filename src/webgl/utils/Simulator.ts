@@ -1,6 +1,6 @@
 import { Camera, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, type RawShaderMaterial, type WebGLRenderTarget, WebGLRenderer } from "three";
 
-export default class Simulator {
+export class Simulator {
   renderer: WebGLRenderer;
   scene: Scene;
   camera: Camera;

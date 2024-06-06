@@ -1,6 +1,6 @@
 import { type RenderTargetOptions, WebGLRenderTarget } from 'three';
 
-export default class FBO {
+export class FBO {
   write: WebGLRenderTarget;
   read: WebGLRenderTarget;
   
