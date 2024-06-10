@@ -1,7 +1,7 @@
-import { Uniforms } from "@/types/Uniforms";
+import { Uniforms } from "@/types/uniforms";
 import { Mesh, Vector2, PlaneGeometry, ShaderMaterial } from "three";
-import vertexShader from '@/shaders/plane/base.vert?raw';
-import fragmentShader from '@/shaders/plane/base.frag?raw';
+import vertexShader from '@/shaders/plane/base.vert';
+import fragmentShader from '@/shaders/plane/base.frag';
 
 export default class Plane {
   uniforms: Uniforms;
