@@ -3,16 +3,18 @@ import WebGLCanvas from "./components/webgl-canvas";
 function app() {
   const webgl = new WebGLCanvas();
 
+  handleResize();
   window.addEventListener('resize', handleResize);
-  raf();
+  
+  animate(0);
   
   function handleResize() {
     webgl.resize(window.innerWidth, window.innerHeight);
   }
   
-  function raf() {
-    webgl.update();
-    requestAnimationFrame(raf);
+  function animate(timestamp: number) {
+    webgl.update(timestamp);
+    requestAnimationFrame(animate);
   }
 }
 

@@ -40,10 +40,9 @@ export default class WebGL {
     };
   }
 
-  tick() {
-    const timestamp = performance.now() * .001;
+  tick(timestamp: number) {
     if (!this.time.last) this.time.last = timestamp;
-    this.time.delta = timestamp - this.time.last;
+    this.time.delta = (timestamp - this.time.last) * .001;
     this.time.elapsed += this.time.delta;
     this.time.last = timestamp;
   }

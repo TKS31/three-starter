@@ -18,12 +18,10 @@ export default class WebGLCanvas extends WebGL {
 
     this.plane = new Plane();
     this.scene.add(this.plane.mesh);
-
-    this.resize(window.innerWidth, window.innerHeight);
   }
 
-  update() {
-    this.tick();
+  update(timestamp: number) {
+    this.tick(timestamp);
     this.plane.update(this.time.elapsed);
     this.render();
   }
