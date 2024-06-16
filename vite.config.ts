@@ -4,6 +4,7 @@ import glsl from 'vite-plugin-glsl';
 export default defineConfig({
   server: {
     host: true,
+    open: true
   },
   resolve: {
     alias: [
@@ -11,7 +12,9 @@ export default defineConfig({
     ]
   },
   build: {
+    minify: 'terser',
     emptyOutDir: true,
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
         entryFileNames: 'assets/js/[name][hash].js',

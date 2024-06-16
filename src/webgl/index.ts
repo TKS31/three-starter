@@ -6,12 +6,21 @@ type Size = {
   dpr: number;
 }
 
+type Time = {
+  elapsed: number;
+  delta: number;
+  last: number;
+  targetDelta: number;
+  ratio: number;
+  frame: number;
+}
+
 export default class WebGL {
   renderer: WebGLRenderer;
   size: Size;
   camera: PerspectiveCamera;
   scene: Scene;
-  time: { elapsed: number, delta: number, last: number };
+  time: Time;
   
   constructor(rendererOptions: WebGLRendererParameters = {}) {
     this.renderer = new WebGLRenderer(rendererOptions);
@@ -36,7 +45,10 @@ export default class WebGL {
     this.time = {
       elapsed: 0,
       delta: 0,
-      last: 0
+      last: 0,
+      targetDelta: 1 / 60,
+      ratio: 1,
+      frame: 0
     };
   }
 
@@ -45,6 +57,8 @@ export default class WebGL {
     this.time.delta = (timestamp - this.time.last) * .001;
     this.time.elapsed += this.time.delta;
     this.time.last = timestamp;
+    this.time.ratio = this.time.delta / this.time.targetDelta;
+    this.time.frame++;
   }
 
   render() {
@@ -52,7 +66,7 @@ export default class WebGL {
     this.renderer.render(this.scene, this.camera);
   }
 
-  resize(width: number, height: number) {
+  resize(width: number = window.innerWidth, height: number = window.innerHeight) {
     this.size.width = width;
     this.size.height = height;
     this.size.dpr = Math.min(2, window.devicePixelRatio);

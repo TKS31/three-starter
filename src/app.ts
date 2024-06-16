@@ -1,7 +1,7 @@
-import WebGLCanvas from "./components/webgl-canvas";
+import WebGLApp from "./components/webgl-app";
 
 function app() {
-  const webgl = new WebGLCanvas();
+  const webgl = new WebGLApp();
 
   handleResize();
   window.addEventListener('resize', handleResize);
@@ -9,7 +9,7 @@ function app() {
   animate(0);
   
   function handleResize() {
-    webgl.resize(window.innerWidth, window.innerHeight);
+    webgl.resize();
   }
   
   function animate(timestamp: number) {
